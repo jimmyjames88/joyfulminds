@@ -1,0 +1,25 @@
+---
+interface Props {
+  as?: 'div' | 'li' | 'article';
+  tone?: 'surface' | 'canvas' | 'tint';
+  padding?: 'sm' | 'md' | 'lg';
+  interactive?: boolean;
+  class?: string;
+}
+
+const { as: Tag = 'div', tone = 'surface', padding = 'md', interactive = false, class: className } = Astro.props;
+
+const paddings = { sm: 'p-4', md: 'p-6', lg: 'p-6 sm:p-8' };
+---
+
+<Tag
+  class:list={[
+    'rounded-2xl border border-line shadow-card',
+    tone === 'surface' ? 'bg-surface' : tone === 'tint' ? 'bg-tint' : 'bg-canvas',
+    paddings[padding],
+    interactive && 'transition duration-200 hover:-translate-y-0.5 hover:shadow-lift',
+    className,
+  ]}
+>
+  <slot />
+</Tag>

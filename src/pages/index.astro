@@ -1,11 +1,23 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import Booking from '../components/home/Booking.astro';
+import ClosingCta from '../components/home/ClosingCta.astro';
+import FocusAreas from '../components/home/FocusAreas.astro';
+import Hero from '../components/home/Hero.astro';
+import TherapistSpotlight from '../components/home/TherapistSpotlight.astro';
+import Workshops from '../components/home/Workshops.astro';
+import portrait from '../assets/rhonda-hilker-portrait.png';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const title = 'Rhonda Hilker, MSW, RSW | Joyful Minds Counselling';
+const description =
+  'Compassionate, evidence-based counselling and therapy with Rhonda Hilker, MSW, RSW — virtual counselling for adults across Alberta and Ontario.';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={title} description={description}>
+  <Hero />
+  <FocusAreas />
+  <TherapistSpotlight portrait={portrait} />
+  <Workshops />
+  <Booking />
+  <ClosingCta />
 </Layout>

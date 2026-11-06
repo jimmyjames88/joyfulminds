@@ -1,0 +1,83 @@
+---
+import { site } from '../../data/site';
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+import Icon, { type IconName } from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import SomaticDotAura from './SomaticDotAura.astro';
+
+const trustChips: { icon: IconName; label: string }[] = [
+  { icon: 'shield-check', label: 'Regulated Healthcare Professional' },
+  { icon: 'video', label: 'Virtual counselling in Alberta & Ontario' },
+  { icon: 'lock', label: 'Secure & Confidential' },
+];
+---
+
+<section aria-labelledby="hero-title" class="relative isolate overflow-hidden">
+  <SomaticDotAura />
+  <div class="hero-overlay pointer-events-none absolute inset-0 z-[1]" aria-hidden="true"></div>
+
+  <Container width="narrow" class="relative z-10 flex flex-col items-center pt-20 pb-24 text-center lg:pt-32 lg:pb-36">
+    <SectionHeading
+      id="hero-title"
+      headingLevel="h1"
+      align="center"
+      eyebrow="Compassionate, Evidence-Based Counselling"
+      titleClass="mt-7 text-[2.75rem] leading-[1.1] font-medium tracking-[-0.02em] sm:text-[3.5rem] lg:text-[4rem]"
+      class="w-full"
+    >
+      <Fragment slot="title">
+        {site.practitioner},{' '}
+        <span class="mt-2 block font-sans text-2xl font-normal tracking-normal text-ink/80 sm:mt-0 sm:inline sm:text-[1.75rem]">
+          {site.credentials}
+        </span>
+      </Fragment>
+    </SectionHeading>
+
+    <p class="mt-5 text-[0.6875rem] font-medium tracking-[0.2em] text-ink/80 uppercase sm:text-xs">
+      Registered Social Worker (Alberta &amp; Ontario)
+    </p>
+
+    <p class="mt-8 max-w-2xl text-lg leading-[1.6] text-ink sm:text-xl">
+      Providing support to improve your mental health and step into the life you want.
+    </p>
+
+    <p class="mt-5 max-w-2xl text-[0.9375rem] leading-[1.7] text-muted sm:text-base">
+      My role is to walk alongside you, help you make sense of what you are experiencing, and guide you toward the changes you want to make. If you are unsure how counselling works or where to start, support is one conversation away.
+    </p>
+
+    <div class="mt-10 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
+      <Button href="#booking" size="lg" icon="calendar" class="w-full sm:w-auto">
+        Book Appointment
+      </Button>
+      <Button href="#focus" variant="outline" size="lg" class="w-full sm:w-auto">Explore Areas of Focus</Button>
+    </div>
+
+    <ul class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-ink/70">
+      {
+        trustChips.map((chip) => (
+          <li class="flex items-center gap-2">
+            <Icon name={chip.icon} class="size-4 text-peach" />
+            {chip.label}
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href="#focus"
+      class="mt-14 hidden rounded-full p-2 text-muted transition-colors hover:text-forest sm:inline-flex lg:mt-20"
+    >
+      <span class="sr-only">Scroll to areas of focus</span>
+      <Icon name="arrow-down" class="size-4 motion-safe:animate-bounce" />
+    </a>
+  </Container>
+</section>
+
+<style>
+  .hero-overlay {
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 15%, color-mix(in srgb, var(--color-sage) 7%, transparent), transparent 75%),
+      linear-gradient(180deg, transparent 0%, transparent 62%, color-mix(in srgb, var(--color-canvas) 75%, transparent) 82%, var(--color-tint) 100%);
+  }
+</style>

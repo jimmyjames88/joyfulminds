@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* Dark Stitch palette override; existing colour-token names retain their component roles. */
+@theme {
+  --color-canvas: #17111f;
+  --color-surface: #221b2d;
+  --color-tint: #1d1627;
+  --color-line: #3c314b;
+  --color-forest: #f5f0fa;
+  --color-forest-deep: #100c16;
+  --color-terracotta: #c2a1ef;
+  --color-terracotta-hover: #dec8ff;
+  --color-terracotta-tint: #2a2138;
+  --color-sage: #c2a1ef;
+  --color-sage-tint: #30233f;
+  --color-action: #9255d6;
+  --color-action-hover: #7d42bf;
+  --color-peach: #c99aa5;
+  --color-peach-tint: #35232e;
+  --color-ink: #e7e0ed;
+  --color-muted: #b7aebf;
+  --color-glow: color-mix(in srgb, var(--color-sage) 15%, transparent);
+
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+
+  --shadow-card: 0 2px 8px -2px rgb(0 0 0 / 0.25), 0 1px 3px rgb(0 0 0 / 0.15);
+  --shadow-lift: 0 12px 24px -6px rgb(0 0 0 / 0.4), 0 4px 8px -2px rgb(0 0 0 / 0.2);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-forest;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-terracotta;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

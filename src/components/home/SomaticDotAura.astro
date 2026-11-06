@@ -1,0 +1,255 @@
+<div class="somatic-aura" aria-hidden="true">
+  <canvas data-somatic-dot-aura></canvas>
+  <div class="somatic-aura__glow"></div>
+  <div class="somatic-aura__vignette"></div>
+</div>
+
+<style>
+  .somatic-aura {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: #130d1b;
+  }
+
+  .somatic-aura canvas {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.65;
+  }
+
+  .somatic-aura__glow {
+    opacity: 0.65;
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 45%,
+      color-mix(in srgb, var(--color-terracotta) 30%, transparent) 0%,
+      color-mix(in srgb, var(--color-peach) 17%, transparent) 32%,
+      rgb(30 18 46 / 0.4) 55%,
+      transparent 80%
+    );
+  }
+
+  .somatic-aura__vignette {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at 50% 42%,
+      transparent 30%,
+      rgb(14 9 20 / 0.12) 68%,
+      rgb(14 9 20 / 0.42) 100%
+    );
+  }
+</style>
+
+<script>
+  function requireValue<T>(value: T | null, message: string): T {
+    if (value === null) throw new Error(message);
+    return value;
+  }
+
+  const canvas = requireValue(
+    document.querySelector<HTMLCanvasElement>('[data-somatic-dot-aura]'),
+    'Somatic dot aura canvas was not found.',
+  );
+  const context = requireValue(
+    canvas.getContext('2d', { alpha: true }),
+    'Somatic dot aura could not acquire a 2D canvas context.',
+  );
+  const pointerTarget = requireValue(
+    canvas.closest('section'),
+    'Somatic dot aura requires a containing section.',
+  );
+
+  const themeColors = getComputedStyle(document.documentElement);
+  const lilac = themeColors.getPropertyValue('--color-terracotta').trim();
+  const dustyRose = themeColors.getPropertyValue('--color-peach').trim();
+  if (!lilac || !dustyRose) throw new Error('Somatic dot aura theme colors are unavailable.');
+
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const ringCount = 16;
+  const firstRadius = 70;
+  const lastRadius = 720;
+  const pointSpacing = 18;
+  const twoPi = Math.PI * 2;
+  const cycleSpeed = twoPi / 6000;
+
+  type Ring = {
+    radius: number;
+    count: number;
+    xUnit: Float32Array;
+    yUnit: Float32Array;
+    alpha: number;
+    dotRadius: number;
+    color: string;
+  };
+
+  let rings: Ring[] = [];
+  let width = 0;
+  let height = 0;
+  let originX = 0;
+  let originY = 0;
+  let targetOffsetX = 0;
+  let targetOffsetY = 0;
+  let offsetX = 0;
+  let offsetY = 0;
+  let phase = 0;
+  let previousTime = 0;
+  let animationFrame = 0;
+  let resizeTimer = 0;
+  let running = false;
+
+  function draw() {
+    context.clearRect(0, 0, width, height);
+
+    for (let ringIndex = 0; ringIndex < rings.length; ringIndex += 1) {
+      const ring = rings[ringIndex];
+      const wave = Math.sin(phase - ringIndex * 0.22);
+      const radius = ring.radius + wave * 10;
+
+      context.globalAlpha = ring.alpha * (0.9 + (wave + 1) * 0.05);
+      context.fillStyle = ring.color;
+      context.beginPath();
+
+      for (let pointIndex = 0; pointIndex < ring.count; pointIndex += 1) {
+        const x = originX + offsetX + ring.xUnit[pointIndex] * radius;
+        const y = originY + offsetY + ring.yUnit[pointIndex] * radius;
+        context.moveTo(x + ring.dotRadius, y);
+        context.arc(x, y, ring.dotRadius, 0, twoPi);
+      }
+
+      context.fill();
+    }
+
+    context.globalAlpha = 1;
+  }
+
+  function rebuild() {
+    const bounds = canvas.getBoundingClientRect();
+    width = Math.max(1, bounds.width);
+    height = Math.max(1, bounds.height);
+    originX = width / 2;
+    originY = height * 0.44;
+
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+    rings = [];
+    for (let ringIndex = 0; ringIndex < ringCount; ringIndex += 1) {
+      const progress = ringIndex / (ringCount - 1);
+      const radius = firstRadius + (lastRadius - firstRadius) * progress;
+      const count = Math.max(12, Math.round((twoPi * radius) / pointSpacing));
+      const xUnit = new Float32Array(count);
+      const yUnit = new Float32Array(count);
+
+      for (let pointIndex = 0; pointIndex < count; pointIndex += 1) {
+        const angle = (pointIndex / count) * twoPi;
+        xUnit[pointIndex] = Math.cos(angle);
+        yUnit[pointIndex] = Math.sin(angle);
+      }
+
+      rings.push({
+        radius,
+        count,
+        xUnit,
+        yUnit,
+        alpha: 0.55 - progress * 0.47,
+        dotRadius: 1.6 - progress * 0.5,
+        color: ringIndex < 2 ? dustyRose : lilac,
+      });
+    }
+
+    draw();
+  }
+
+  function animate(time: number) {
+    if (!running) return;
+
+    const delta = previousTime === 0 ? 0 : Math.min(time - previousTime, 64);
+    previousTime = time;
+    phase = (phase + delta * cycleSpeed) % twoPi;
+    offsetX += (targetOffsetX - offsetX) * 0.04;
+    offsetY += (targetOffsetY - offsetY) * 0.04;
+    draw();
+    animationFrame = window.requestAnimationFrame(animate);
+  }
+
+  function start() {
+    if (running || motionPreference.matches || document.hidden) return;
+    running = true;
+    previousTime = 0;
+    animationFrame = window.requestAnimationFrame(animate);
+  }
+
+  function stop() {
+    running = false;
+    window.cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
+  }
+
+  function handleResize() {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      rebuild();
+      start();
+    }, 120);
+  }
+
+  function handlePointerMove(event: PointerEvent) {
+    if (event.pointerType === 'touch') return;
+
+    const bounds = canvas.getBoundingClientRect();
+    targetOffsetX = Math.max(-14, Math.min(14, (event.clientX - bounds.left - width / 2) * 0.035));
+    targetOffsetY = Math.max(-14, Math.min(14, (event.clientY - bounds.top - originY) * 0.035));
+  }
+
+  function handlePointerLeave() {
+    targetOffsetX = 0;
+    targetOffsetY = 0;
+  }
+
+  function handleMotionChange() {
+    if (motionPreference.matches) {
+      stop();
+      phase = 0;
+      offsetX = 0;
+      offsetY = 0;
+      targetOffsetX = 0;
+      targetOffsetY = 0;
+      draw();
+    } else {
+      start();
+    }
+  }
+
+  function handleVisibilityChange() {
+    if (document.hidden) {
+      stop();
+    } else if (motionPreference.matches) {
+      draw();
+    } else {
+      start();
+    }
+  }
+
+  rebuild();
+  if (!motionPreference.matches) start();
+
+  window.addEventListener('resize', handleResize, { passive: true });
+  pointerTarget.addEventListener('pointermove', handlePointerMove, { passive: true });
+  pointerTarget.addEventListener('pointerleave', handlePointerLeave, { passive: true });
+  motionPreference.addEventListener('change', handleMotionChange);
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+</script>

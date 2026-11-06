@@ -1,0 +1,191 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/rhonda-about-portrait.png';
+import { site } from '../data/site';
+import Card from '../components/ui/Card.astro';
+import Container from '../components/ui/Container.astro';
+import Icon from '../components/ui/Icon.astro';
+import ClosingCta from '../components/home/ClosingCta.astro';
+import Layout from '../layouts/Layout.astro';
+
+const title = 'More About Rhonda | Joyful Minds Counselling';
+const description =
+  'Learn about Rhonda Hilker’s 26 years of professional experience, social work education, and training in trauma-informed and strengths-based approaches.';
+
+const training: { name: string; description: string }[] = [
+  {
+    name: 'Cognitive Behavioural Therapy',
+    description:
+      'A structured, present-focused approach that helps identify and shift unhelpful thought patterns and the behaviours that keep them going.',
+  },
+  {
+    name: 'ITATM (Integrative Trauma and Attachment Treatment Model)',
+    description:
+      'A comprehensive framework for healing trauma and attachment wounds, weaving together body, mind, and relational work at a pace that feels safe.',
+  },
+  {
+    name: 'ImTT (Image Transformation Therapy)',
+    description:
+      'A gentle, imagery-based method for releasing the emotional charge of painful or traumatic memories without needing to relive them in detail.',
+  },
+  {
+    name: 'IFS (Internal Family Systems)',
+    description:
+      'An approach that works with the different parts of yourself to foster inner harmony, compassion, and healing of wounded aspects.',
+  },
+  {
+    name: 'Solutions-Focused',
+    description:
+      'A forward-looking approach that builds on your strengths and resources to find practical, workable solutions.',
+  },
+  {
+    name: 'Strengths Based',
+    description:
+      'Centers your existing capacities and resilience as the foundation for growth and meaningful change.',
+  },
+  {
+    name: 'Motivational Interviewing',
+    description:
+      'A collaborative conversation style that strengthens your own motivation and commitment to change.',
+  },
+  {
+    name: 'Mindfulness',
+    description:
+      'Practices that cultivate present-moment awareness and a compassionate, non-judgemental relationship with your experience.',
+  },
+  {
+    name: 'Neuro-biology of trauma',
+    description:
+      'Understanding how trauma affects the brain and nervous system, informing care that works with the body rather than against it.',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <section id="more-about-me" aria-labelledby="about-title" class="bg-canvas py-14 sm:py-18 lg:py-24">
+    <Container>
+      <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
+        <figure class="mx-auto w-full max-w-sm lg:mx-0">
+          <Card padding="sm" class="overflow-hidden">
+          <Image
+            src={portrait}
+            alt="Rhonda Hilker smiling while seated at a café"
+            widths={[226]}
+            sizes="272px"
+            loading="eager"
+            fetchpriority="high"
+            class="aspect-[226/283] w-full rounded-xl object-cover"
+          />
+            <figcaption class="flex flex-wrap items-center justify-between gap-3 px-2 pt-4 pb-2">
+              <div>
+                <p class="font-medium text-ink">Rhonda Hilker</p>
+                <p class="mt-1 text-xs text-muted">MSW, RSW</p>
+              </div>
+              <span class="inline-flex items-center gap-2 text-xs font-medium text-ink">
+                <Icon name="leaf" class="size-4 text-peach" />
+                26+ Years Experience
+              </span>
+            </figcaption>
+          </Card>
+        </figure>
+
+        <div>
+          <p class="text-[0.6875rem] font-semibold tracking-[0.12em] text-muted uppercase">
+            About Rhonda Hilker • MSW, RSW
+          </p>
+          <h1 id="about-title" class="mt-3 text-4xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-5xl">
+            More About Me
+          </h1>
+          <div class="mt-6 space-y-4 text-sm leading-[1.7] text-ink sm:text-base">
+            <p class="text-base leading-[1.65] font-medium text-forest sm:text-lg">
+              I bring over 26 years of diverse professional experience supporting and working alongside people from all
+              walks of life. Throughout my career, I have learned that every person brings a unique story, perspective,
+              and set of circumstances to the challenges they face.
+            </p>
+            <p>
+              My early professional experience in healthcare taught me skills that have stayed with me: how to listen
+              with genuine curiosity, respect differences in people's experiences and circumstances, recognize how
+              social and economic factors can shape our lives, and remain calm and present when situations are stressful
+              or uncertain. It also taught me the importance of meeting people where they are and creating a space where
+              they feel heard and respected.
+            </p>
+            <p>
+              Over time, these experiences naturally led me toward coaching and social work, where I could build on and
+              deepen my understanding of individuals in their social environment and the impact on mental health and
+              wellness.
+            </p>
+            <p>
+              Today, I draw on this diverse background to support adults through the challenges and transitions of life.
+              I believe that supporting mental health is about managing symptoms but also understanding the context of
+              our lives, recognizing the strengths and capacities we already have, and finding ways forward that feel
+              authentic and sustainable.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:mt-12">
+        <Card class="h-full">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-lg font-semibold tracking-[0.04em] text-ink uppercase">Clinical Registrations</h2>
+            <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-sage-tint text-terracotta">
+              <Icon name="shield-check" class="size-5" />
+            </span>
+          </div>
+          <ul class="mt-5 grid gap-5 border-t border-line pt-5 sm:grid-cols-2">
+            {
+              site.licences.map((licence) => (
+                <li>
+                  <h3 class="font-semibold text-forest">{licence.province} ({licence.body})</h3>
+                  <p class="mt-1 text-sm text-muted">Reg. {licence.number}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </Card>
+
+        <Card class="h-full">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-lg font-semibold tracking-[0.04em] text-ink uppercase">Academic Background</h2>
+            <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-peach-tint text-peach">
+              <Icon name="presentation" class="size-5" />
+            </span>
+          </div>
+          <div class="mt-5 border-t border-line pt-5">
+            <h3 class="font-semibold text-forest">Masters Degree: Social Work (MSW)</h3>
+            <p class="mt-1 text-sm text-muted">University of Windsor</p>
+          </div>
+        </Card>
+      </div>
+    </Container>
+  </section>
+
+  <section aria-labelledby="training-title" class="bg-tint py-16 sm:py-20 lg:py-24">
+    <Container>
+      <header class="max-w-3xl">
+        <p class="flex items-center gap-3 text-[0.6875rem] font-semibold tracking-[0.12em] text-muted uppercase">
+          <Icon name="circle-check" class="size-4 text-terracotta" />
+          Evidence-Based Practices
+        </p>
+        <h2 id="training-title" class="mt-3 text-3xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-4xl">
+          Clinical Training
+        </h2>
+      </header>
+
+      <ol class="mt-9 divide-y divide-line border-y border-line lg:mt-12">
+        {
+          training.map((item, index) => (
+            <li class="grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-x-4 gap-y-2 py-5 sm:grid-cols-[2rem_minmax(0,0.95fr)_minmax(0,1.05fr)] sm:gap-x-6 sm:py-6 lg:gap-x-8 lg:py-7">
+              <span aria-hidden="true" class="pt-1 text-[0.625rem] font-semibold tracking-[0.1em] text-terracotta">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 class="font-serif text-xl leading-[1.25] font-medium text-forest sm:text-2xl">{item.name}</h3>
+              <p class="col-start-2 text-sm leading-[1.7] text-muted sm:col-start-3">{item.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </Container>
+  </section>
+  <ClosingCta />
+</Layout>

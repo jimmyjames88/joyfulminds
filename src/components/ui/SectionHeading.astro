@@ -1,0 +1,50 @@
+---
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title?: string;
+  headingLevel?: 'h1' | 'h2';
+  titleClass?: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { id, eyebrow, title, headingLevel = 'h2', titleClass, align = 'left', class: className } = Astro.props;
+const centered = align === 'center';
+const headingClasses =
+  titleClass ?? 'text-[2rem] leading-[1.2] font-medium tracking-[-0.015em] sm:text-[2.5rem]';
+---
+
+<header class:list={[centered ? 'mx-auto max-w-2xl text-center' : 'max-w-3xl', className]}>
+  {
+    eyebrow && (
+      <p
+        class:list={[
+          'flex items-center gap-3 text-[0.6875rem] font-semibold tracking-[0.12em] text-muted uppercase',
+          centered && 'justify-center',
+        ]}
+      >
+        {!centered && <span class="h-px w-6 bg-muted/50" aria-hidden="true" />}
+        {eyebrow}
+      </p>
+    )
+  }
+  {
+    headingLevel === 'h1' ? (
+      <h1 id={id} class:list={[!titleClass && eyebrow && 'mt-3', headingClasses]}>
+        {Astro.slots.has('title') ? <slot name="title" /> : title}
+      </h1>
+    ) : (
+      <h2 id={id} class:list={[!titleClass && eyebrow && 'mt-3', headingClasses]}>
+        {Astro.slots.has('title') ? <slot name="title" /> : title}
+      </h2>
+    )
+  }
+  {
+    Astro.slots.has('default') && (
+      <div class="mt-5 space-y-4 text-base leading-[1.65] text-ink sm:text-[1.0625rem]">
+        <slot />
+      </div>
+    )
+  }
+</header>

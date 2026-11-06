@@ -1,0 +1,30 @@
+---
+import Card from '../ui/Card.astro';
+import Icon, { type IconName } from '../ui/Icon.astro';
+
+export interface FocusArea {
+  title: string;
+  description: string;
+  icon: IconName;
+  accent: 'terracotta' | 'sage';
+}
+
+interface Props {
+  area: FocusArea;
+}
+
+const { area } = Astro.props;
+---
+
+<Card as="li" tone="surface" interactive class="flex flex-col sm:p-7">
+  <span
+    class:list={[
+      'grid size-11 place-items-center rounded-xl',
+      area.accent === 'terracotta' ? 'bg-sage-tint text-sage' : 'bg-peach-tint text-peach',
+    ]}
+  >
+    <Icon name={area.icon} class="size-5" />
+  </span>
+  <h3 class="mt-6 text-[1.375rem] leading-[1.3] font-semibold tracking-[-0.01em]">{area.title}</h3>
+  <p class="mt-2 text-sm leading-[1.6] text-muted">{area.description}</p>
+</Card>

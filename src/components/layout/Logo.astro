@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import logoWhite from '../../assets/joyful-minds-logo-white.png';
+import logo from '../../assets/joyful-minds-logo-plum.png';
+import { site } from '../../data/site';
+
+interface Props {
+  /** `dark` renders the all-white logo for dark backgrounds. */
+  theme?: 'light' | 'dark';
+  /** Optional line shown beneath the logo (dark theme only). */
+  subtitle?: string;
+  class?: string;
+}
+
+const { theme = 'light', subtitle, class: className } = Astro.props;
+---
+
+{
+  theme === 'light' ? (
+    <Image
+      src={logo}
+      alt={site.name}
+      loading="eager"
+      class:list={['h-11 w-auto lg:h-14', className]}
+    />
+  ) : (
+    <span class:list={['flex flex-col items-start', className]}>
+      <Image
+        src={logoWhite}
+        alt={site.name}
+        loading={subtitle ? 'lazy' : 'eager'}
+        class:list={['w-auto', subtitle ? 'h-14' : 'h-11 lg:h-14']}
+      />
+      {subtitle && (
+        <span class="mt-3 text-[0.625rem] leading-none font-medium tracking-[0.14em] whitespace-nowrap text-white/60 uppercase">
+          {subtitle}
+        </span>
+      )}
+    </span>
+  )
+}

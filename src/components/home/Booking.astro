@@ -1,0 +1,78 @@
+---
+import { mailto, site } from '../../data/site';
+import Container from '../ui/Container.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import PricingCard, { type PricingTier } from './PricingCard.astro';
+
+const tiers: PricingTier[] = [
+  {
+    label: 'The First Step',
+    labelTone: 'sage',
+    featured: 'Recommended First Step',
+    title: 'Complimentary Consultation',
+    description: 'A gentle 30-minute phone or video conversation to determine if we are the right mutual fit.',
+    price: '$0',
+    duration: '30 Minutes',
+    features: ['No obligation or pressure', 'Discuss what brings you in', 'Review schedule availability'],
+    cta: { label: 'Book Free Consult', href: mailto('Free 30-minute consultation') },
+  },
+  {
+    label: 'New Clients',
+    labelTone: 'terracotta',
+    title: 'Initial Assessment',
+    description: 'In-depth 90-minute session to map your history, somatic cues, and therapy objectives.',
+    price: '$225',
+    duration: '1.5 Hours',
+    features: ['Extended duration for depth', 'Comprehensive history exploration', 'Insurance receipt provided'],
+    cta: { label: 'Book Initial Session', href: mailto('Initial assessment booking') },
+  },
+  {
+    label: 'Returning Clients',
+    labelTone: 'terracotta',
+    title: 'Standard Session',
+    description: 'Regular 60-minute ongoing counselling sessions.',
+    price: '$225',
+    duration: '1 Hour',
+    features: ['Ongoing weekly / bi-weekly care', 'Somatic regulation practice', 'Direct insurance documentation'],
+    cta: { label: 'Book Returning Session', href: mailto('Returning session booking') },
+  },
+];
+---
+
+<section id="booking" aria-labelledby="booking-title" class="bg-canvas py-20 lg:py-28">
+  <Container>
+    <SectionHeading
+      id="booking-title"
+      align="center"
+      title="Booking & Consultation"
+    >
+      <p class="text-muted">
+        Registered Social Worker counselling services are covered by most extended health care benefit plans in
+        Alberta and Ontario.
+      </p>
+    </SectionHeading>
+
+    <ul class="mt-14 grid gap-8 md:mx-auto md:max-w-xl lg:max-w-none lg:grid-cols-3 lg:gap-6">
+      {tiers.map((tier) => <PricingCard tier={tier} />)}
+    </ul>
+
+    <ul
+      class="mt-12 flex flex-col items-center justify-center gap-2 text-sm text-muted sm:flex-row sm:gap-6"
+      aria-label="Direct contact"
+    >
+      <li>
+        Direct telephone:
+        <a href={site.phoneHref} class="rounded-sm font-medium text-ink hover:text-terracotta">{site.phone}</a>
+      </li>
+      <li class="hidden size-1 rounded-full bg-muted sm:block" aria-hidden="true"></li>
+      <li>
+        Email:
+        <a href={mailto()} class="rounded-sm font-medium text-ink hover:text-terracotta">{site.email}</a>
+      </li>
+    </ul>
+    <p class="mt-6 text-center text-xs leading-relaxed text-muted italic">
+      Please note: email and phone are for scheduling and general questions. Please avoid sharing sensitive or
+      crisis details through these channels.
+    </p>
+  </Container>
+</section>

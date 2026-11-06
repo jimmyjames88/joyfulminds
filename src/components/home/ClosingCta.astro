@@ -1,0 +1,30 @@
+---
+import { consultHref } from '../../data/site';
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+---
+
+<section aria-labelledby="closing-title" class="closing relative isolate overflow-hidden bg-forest-deep py-20 text-center lg:py-28">
+  <Container width="narrow">
+    <h2
+      id="closing-title"
+      class="text-[2rem] leading-[1.2] font-medium tracking-[-0.015em] text-white sm:text-[2.5rem] lg:text-[3rem]"
+    >
+      You do not have to figure this out alone. Steady, evidence-based care is one conversation away.
+    </h2>
+    <p class="mx-auto mt-6 max-w-xl text-base leading-[1.65] text-white/75">
+      Reach out to book a first session, or to ask any question before you decide.
+    </p>
+    <Button href={consultHref} size="lg" icon="calendar" class="mt-10">Complimentary Consult (30 Minutes)</Button>
+  </Container>
+</section>
+
+<style>
+  .closing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in srgb, var(--color-sage) 8%, transparent), transparent 70%);
+  }
+</style>

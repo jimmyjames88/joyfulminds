@@ -1,0 +1,90 @@
+---
+import { primaryNav, site } from '../../data/site';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import Logo from './Logo.astro';
+
+
+const year = new Date().getFullYear();
+const onHomePage = Astro.url.pathname === '/';
+const getNavHref = (href: string) => {
+  if (href.startsWith('/')) return href;
+  if (onHomePage) return href;
+  return `/${href}`;
+};
+const headingClass = 'font-sans text-xs font-bold tracking-[0.12em] text-white uppercase';
+const linkClass = 'rounded-sm text-sm text-white/65 transition-colors hover:text-white';
+---
+
+<footer id="contact" class="bg-forest-deep text-white/70">
+  <Container class="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_0.9fr] lg:gap-10">
+    <div class="max-w-sm">
+      <Logo theme="dark" subtitle={`${site.practitioner}, ${site.credentials}`} />
+      <dl class="mt-6 space-y-1 text-[0.8125rem]">
+        {
+          site.licences.map((licence) => (
+            <div class="flex gap-1.5">
+              <dt class="font-semibold text-white">{licence.province} Licence:</dt>
+              <dd>
+                {licence.body} {licence.number}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mt-3 text-xs leading-relaxed text-white/60">
+        Clients have the right to verify my registration status or file a formal complaint with the Alberta College of Social Workers or the Ontario College of Social Workers and Social Service Workers.
+      </p>
+    </div>
+
+    <nav aria-labelledby="footer-explore">
+      <h2 id="footer-explore" class={headingClass}>Explore</h2>
+      <ul class="mt-5 space-y-3">
+        {
+          primaryNav.map((link) => (
+            <li>
+              <a href={getNavHref(link.href)} class={linkClass}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class={headingClass}>Reach Rhonda</h2>
+      <ul class="mt-5 space-y-3 text-sm">
+        <li class="flex items-start gap-3">
+          <Icon name="mail" class="mt-0.5 size-4 text-terracotta" />
+          <a href={`mailto:${site.email}`} class={linkClass}>{site.email}</a>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="phone" class="mt-0.5 size-4 text-terracotta" />
+          <a href={site.phoneHref} class={linkClass}>{site.phone}</a>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="video" class="mt-0.5 size-4 text-terracotta" />
+          <span class="text-white/65">{site.serviceArea}</span>
+        </li>
+      </ul>
+    </div>
+
+    <aside aria-labelledby="footer-emergency" class="self-start rounded-2xl border border-white/10 bg-white/5 p-5">
+      <h2 id="footer-emergency" class="flex items-center gap-2 font-sans text-sm font-semibold text-white">
+        <Icon name="alert" class="size-4 text-terracotta" />
+        Emergency Help
+      </h2>
+      <p class="mt-3 text-[0.8125rem] leading-relaxed text-white/75">
+        If you are in immediate crisis or feeling unsafe, please call <strong class="text-white">911</strong>{' '}
+        or call/text the Suicide Crisis Helpline at <strong class="text-white">988</strong> immediately.
+      </p>
+    </aside>
+  </Container>
+
+  <Container>
+    <div class="border-t border-white/10 py-6 text-xs text-white/60">
+      <p>&copy; {year} {site.name}. All rights reserved.</p>
+    </div>
+  </Container>
+</footer>
