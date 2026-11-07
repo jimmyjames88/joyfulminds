@@ -1,0 +1,300 @@
+---
+interface Props {
+  effect?: 'heart' | 'orbits' | 'breath';
+}
+
+const { effect = 'heart' } = Astro.props;
+---
+
+<animated-hero-background class="hero-background" data-effect={effect} aria-hidden="true">
+  <canvas></canvas>
+</animated-hero-background>
+
+<style>
+  .hero-background {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 0;
+    display: block;
+    height: min(100%, 48rem);
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.7;
+    background:
+      radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--color-peach) 24%, transparent), transparent 65%),
+      var(--color-canvas);
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-background[data-effect='orbits'] {
+    opacity: 0.875;
+  }
+
+  canvas[hidden] {
+    display: none;
+  }
+
+  .hero-background::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(to bottom, transparent 65%, var(--color-canvas));
+  }
+</style>
+
+<script>
+  const vertexSource = `
+    attribute vec2 a_position;
+    void main() {
+      gl_Position = vec4(a_position, 0.0, 1.0);
+    }
+  `;
+  const heartSource = `
+    precision mediump float;
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec3 u_base;
+    uniform vec3 u_rose;
+    uniform vec3 u_lilac;
+
+    void main() {
+      vec2 p = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      p.y += 0.12;
+      p.y *= 1.15;
+      float t = u_time * 0.45;
+      float pulse = sin(t) * 0.08 + sin(t * 2.0) * 0.03;
+      vec2 pos = p * (1.1 - pulse) / 1.2;
+      float a = pos.x * pos.x + pos.y * pos.y - 0.45;
+      float heartDist = a * a * a - pos.x * pos.x * pos.y * pos.y * pos.y;
+      float glow = 0.035 / (abs(heartDist) + 0.04);
+      float innerWarmth = exp(-length(pos - vec2(0.0, -0.1)) * 2.2);
+      vec3 col = u_base;
+      col += u_rose * glow * 0.28;
+      col += vec3(1.0, 0.72, 0.45) * innerWarmth * 0.24 * (0.8 + 0.2 * sin(t * 2.0));
+      col += u_lilac * glow * 0.15;
+      vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+      float vig = uv.x * (1.0 - uv.x) * uv.y * (1.0 - uv.y);
+      col *= clamp(16.0 * vig, 0.4, 1.0);
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  const orbitsSource = `
+    precision mediump float;
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec3 u_base;
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+      vec2 p = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      float t = u_time * 0.3125;
+      vec2 p1 = vec2(-0.4, -0.1) + vec2(sin(t * 0.7) * 0.35, cos(t * 0.5) * 0.22);
+      vec2 p2 = vec2(0.35, 0.15) + vec2(-sin(t * 0.6 + 0.5) * 0.38, -cos(t * 0.75) * 0.25);
+      float d1 = length(p - p1);
+      float d2 = length(p - p2);
+      float glow1 = 0.25 / (d1 * d1 + 0.35);
+      float glow2 = 0.22 / (d2 * d2 + 0.40);
+      vec2 mid = (p1 + p2) * 0.5;
+      float dMid = length(p - mid);
+      float breath = 0.5 + 0.5 * sin(t * 1.2);
+      float bridgeGlow = exp(-dMid * 2.2) * (0.35 + 0.25 * breath);
+      vec3 col = u_base;
+      col += vec3(0.65, 0.45, 0.90) * glow1 * 0.225;
+      col += vec3(0.95, 0.65, 0.38) * glow2 * 0.175;
+      col += vec3(0.85, 0.75, 1.0) * bridgeGlow * 0.225;
+      float edgeVignette = smoothstep(0.0, 0.15, uv.y) * (1.0 - smoothstep(0.85, 1.0, uv.y));
+      col = mix(vec3(0.07, 0.05, 0.10), col, edgeVignette);
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  const breathSource = `
+    precision mediump float;
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec3 u_base;
+
+    void main() {
+      vec2 p = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      float t = u_time * 0.45;
+      float breath = sin(t) * 0.5 + 0.5;
+      float pulseRadius = 0.55 + breath * 0.35;
+      vec2 center = vec2(0.25, 0.0);
+      float len = length(p - center);
+      float ring1 = abs(len - pulseRadius);
+      float ring2 = abs(len - (pulseRadius * 0.65));
+      float ring3 = abs(len - (pulseRadius * 1.35));
+      float glow1 = 0.045 / (ring1 + 0.08);
+      float glow2 = 0.035 / (ring2 + 0.09);
+      float glow3 = 0.030 / (ring3 + 0.12);
+      float core = exp(-len * 1.8) * (0.4 + breath * 0.3);
+      vec3 col = u_base;
+      col += vec3(0.80, 0.58, 0.98) * glow1 * 0.22;
+      col += vec3(0.96, 0.70, 0.40) * glow2 * 0.18;
+      col += vec3(0.55, 0.38, 0.85) * glow3 * 0.15;
+      col += vec3(0.95, 0.65, 0.45) * core * 0.22;
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+  const fragmentSources = { heart: heartSource, orbits: orbitsSource, breath: breathSource };
+
+  function initialize(canvas: HTMLCanvasElement, effect: keyof typeof fragmentSources): () => void {
+    const context = canvas.getContext('webgl', { alpha: false, antialias: false });
+    if (!context) {
+      console.warn(`Hero background (${effect}): WebGL unavailable; displaying the static background.`);
+      return () => {};
+    }
+    const gl = context;
+
+    const shaders: WebGLShader[] = [];
+    const program = gl.createProgram();
+    const buffer = gl.createBuffer();
+    function release() {
+      shaders.forEach((shader) => gl.deleteShader(shader));
+      if (program) gl.deleteProgram(program);
+      if (buffer) gl.deleteBuffer(buffer);
+    }
+    function fail(message: string) {
+      console.error(`Hero background (${effect}): ${message}; displaying the static background.`);
+      canvas.hidden = true;
+      release();
+    }
+    if (!program || !buffer) {
+      fail('Could not allocate WebGL resources');
+      return () => {};
+    }
+    for (const [type, source] of [
+      [gl.VERTEX_SHADER, vertexSource],
+      [gl.FRAGMENT_SHADER, fragmentSources[effect]],
+    ] as const) {
+      const shader = gl.createShader(type);
+      if (!shader) {
+        fail('Could not create a shader');
+        return () => {};
+      }
+      shaders.push(shader);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        fail(`Shader compilation failed: ${gl.getShaderInfoLog(shader)}`);
+        return () => {};
+      }
+      gl.attachShader(program, shader);
+    }
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      fail(`Shader linking failed: ${gl.getProgramInfoLog(program)}`);
+      return () => {};
+    }
+    gl.useProgram(program);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'a_position');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    const timeUniform = gl.getUniformLocation(program, 'u_time');
+    const resolutionUniform = gl.getUniformLocation(program, 'u_resolution');
+    const theme = getComputedStyle(document.documentElement);
+    for (const [uniform, token] of [
+      ['u_base', '--color-canvas'],
+      ['u_rose', '--color-peach'],
+      ['u_lilac', '--color-terracotta'],
+    ]) {
+      const hex = theme.getPropertyValue(token).trim();
+      if (!/^#[\da-f]{6}$/i.test(hex)) {
+        fail(`Expected a six-digit hex theme color for ${token}`);
+        return () => {};
+      }
+      const channels = [1, 3, 5].map((offset) => parseInt(hex.slice(offset, offset + 2), 16) / 255);
+      gl.uniform3f(gl.getUniformLocation(program, uniform), channels[0], channels[1], channels[2]);
+    }
+
+    const motion = matchMedia('(prefers-reduced-motion: reduce)');
+    let visible = false;
+    let lost = false;
+    let frame = 0;
+    let elapsed = 0;
+    let previousTime = 0;
+    function draw() {
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(resolutionUniform, canvas.width, canvas.height);
+      gl.uniform1f(timeUniform, motion.matches ? 0 : elapsed);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    function stop() {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      previousTime = 0;
+    }
+    function animate(time: number) {
+      elapsed += previousTime ? Math.min(time - previousTime, 64) / 1000 : 0;
+      previousTime = time;
+      draw();
+      frame = requestAnimationFrame(animate);
+    }
+    function update() {
+      stop();
+      if (lost) return;
+      draw();
+      if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(animate);
+    }
+    function syncSize() {
+      const ratio = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = Math.max(1, Math.round(canvas.clientWidth * ratio));
+      canvas.height = Math.max(1, Math.round(canvas.clientHeight * ratio));
+      update();
+    }
+    const resize = new ResizeObserver(syncSize);
+    const intersection = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      update();
+    });
+    function handleContextLoss(event: Event) {
+      event.preventDefault();
+      lost = true;
+      stop();
+      canvas.hidden = true;
+      console.warn(`Hero background (${effect}): WebGL context lost; displaying the static background.`);
+    }
+    syncSize();
+    resize.observe(canvas);
+    intersection.observe(canvas);
+    motion.addEventListener('change', update);
+    document.addEventListener('visibilitychange', update);
+    canvas.addEventListener('webglcontextlost', handleContextLoss);
+    return () => {
+      stop();
+      resize.disconnect();
+      intersection.disconnect();
+      motion.removeEventListener('change', update);
+      document.removeEventListener('visibilitychange', update);
+      canvas.removeEventListener('webglcontextlost', handleContextLoss);
+      release();
+    };
+  }
+
+  class AnimatedHeroBackground extends HTMLElement {
+    private cleanup?: () => void;
+    connectedCallback() {
+      const canvas = this.querySelector('canvas');
+      if (!canvas) throw new Error('Animated hero background canvas was not found.');
+      const effect = this.dataset.effect;
+      if (effect !== 'heart' && effect !== 'orbits' && effect !== 'breath') {
+        throw new Error('Invalid animated hero background effect.');
+      }
+      this.cleanup = initialize(canvas, effect);
+    }
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+  if (!customElements.get('animated-hero-background')) {
+    customElements.define('animated-hero-background', AnimatedHeroBackground);
+  }
+</script>
