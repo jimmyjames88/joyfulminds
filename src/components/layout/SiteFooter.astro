@@ -1,5 +1,5 @@
 ---
-import { primaryNav, site } from '../../data/site';
+import { primaryNav, serviceNav, site } from '../../data/site';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 import Logo from './Logo.astro';
@@ -41,7 +41,23 @@ const linkClass = 'rounded-sm text-sm text-white/65 transition-colors hover:text
       <h2 id="footer-explore" class={headingClass}>Explore</h2>
       <ul class="mt-5 space-y-3">
         {
-          primaryNav.map((link) => (
+          primaryNav.filter((link) => link.label === 'Home' || link.label === 'About Rhonda').map((link) => (
+            <li>
+              <a href={getNavHref(link.href)} class={linkClass}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        {serviceNav.map((service) => (
+          <li>
+            <a href={service.href} class={linkClass}>
+              {service.label}
+            </a>
+          </li>
+        ))}
+        {
+          primaryNav.filter((link) => link.label !== 'Services' && link.label !== 'About Rhonda' && link.label !== 'Home').map((link) => (
             <li>
               <a href={getNavHref(link.href)} class={linkClass}>
                 {link.label}

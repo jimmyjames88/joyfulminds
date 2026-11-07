@@ -1,3 +1,5 @@
+import { services } from './services';
+
 export interface NavLink {
   label: string;
   href: string;
@@ -23,10 +25,15 @@ export const mailto = (subject?: string) =>
   subject ? `mailto:${site.email}?subject=${encodeURIComponent(subject)}` : `mailto:${site.email}`;
 
 export const primaryNav: NavLink[] = [
-  { label: 'Counselling', href: '#focus' },
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '#' },
   { label: 'About Rhonda', href: '/about' },
-  { label: 'Team Workshops', href: '#workshops' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Contact', href: '/contact' },
 ];
+
+export const serviceNav: NavLink[] = services.map(({ label, slug }) => ({
+  label,
+  href: `/services/${slug}`,
+}));
 
 export const consultHref = mailto('Free 30-minute consultation');
