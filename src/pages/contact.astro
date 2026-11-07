@@ -1,0 +1,332 @@
+---
+import { consultHref, mailto, site } from '../data/site';
+import Card from '../components/ui/Card.astro';
+import Container from '../components/ui/Container.astro';
+import Icon from '../components/ui/Icon.astro';
+import AnimatedHeroBackground from '../components/ui/AnimatedHeroBackground.astro';
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Contact Rhonda | Joyful Minds Counselling';
+const description =
+  'Get in touch with Rhonda Hilker about counselling in Alberta and Ontario. Call, email, or request a call-back at your own pace.';
+---
+
+<Layout title={title} description={description}>
+  <section aria-labelledby="contact-title" class="relative isolate overflow-hidden bg-canvas py-16 sm:py-20 lg:py-24">
+    <AnimatedHeroBackground effect="breath" />
+    <Container class="relative z-10">
+      <header class="mx-auto max-w-3xl text-center">
+        <h1 id="contact-title" class="text-4xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl">
+          Reach out at <em class="text-terracotta">your own pace.</em>
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-base leading-[1.7] text-muted sm:text-lg">
+          You do not need to have all the words figured out before getting in touch. Take a breath and share whatever
+          feels comfortable, or simply ask about booking a complimentary initial conversation.
+        </p>
+      </header>
+
+      <ul class="mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-3">
+        <li>
+          <Card class="flex h-full flex-col">
+            <span class="grid size-10 place-items-center rounded-xl bg-sage-tint text-terracotta">
+              <Icon name="mail" class="size-5" />
+            </span>
+            <p class="mt-5 text-[0.6875rem] font-semibold tracking-[0.1em] text-muted uppercase">Email</p>
+            <a href={mailto()} class="mt-1 inline-block break-all font-semibold text-ink hover:text-terracotta">
+              {site.email}
+            </a>
+            <p class="mt-2 text-sm leading-relaxed text-muted">For questions or to arrange a complimentary consultation.</p>
+            <div class="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4">
+              <span class="text-xs text-muted">Scheduling and general questions</span>
+              <a href={mailto()} class="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-terracotta hover:text-terracotta-hover">
+                Email <Icon name="mail" class="size-3.5" />
+              </a>
+            </div>
+          </Card>
+        </li>
+        <li>
+          <Card class="flex h-full flex-col">
+            <span class="grid size-10 place-items-center rounded-xl bg-peach-tint text-peach">
+              <Icon name="phone" class="size-5" />
+            </span>
+            <p class="mt-5 text-[0.6875rem] font-semibold tracking-[0.1em] text-muted uppercase">Phone</p>
+            <a href={site.phoneHref} class="mt-1 inline-block font-semibold text-ink hover:text-terracotta">
+              {site.phone}
+            </a>
+            <p class="mt-2 text-sm leading-relaxed text-muted">Call to ask a question or arrange a time to connect.</p>
+            <div class="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4">
+              <span class="text-xs text-muted">Direct phone line</span>
+              <a href={site.phoneHref} class="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-terracotta hover:text-terracotta-hover">
+                Call <Icon name="phone" class="size-3.5" />
+              </a>
+            </div>
+          </Card>
+        </li>
+        <li>
+          <Card class="flex h-full flex-col">
+            <span class="grid size-10 place-items-center rounded-xl bg-sage-tint text-terracotta">
+              <Icon name="video" class="size-5" />
+            </span>
+            <p class="mt-5 text-[0.6875rem] font-semibold tracking-[0.1em] text-muted uppercase">Virtual Counselling</p>
+            <p class="mt-1 font-semibold text-ink">Alberta &amp; Ontario</p>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{site.serviceArea}</p>
+            <div class="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4">
+              <span class="text-xs text-muted">Schedule Online</span>
+              <a href="#" class="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-terracotta hover:text-terracotta-hover">
+                Book on Jane App <Icon name="arrow-up-right" class="size-3.5" />
+              </a>
+            </div>
+          </Card>
+        </li>
+      </ul>
+    </Container>
+  </section>
+
+  <section aria-labelledby="callback-title" class="bg-tint py-16 sm:py-20">
+    <Container>
+      <Card tone="surface" padding="lg" class="mx-auto max-w-3xl">
+        <header class="text-center">
+          <p class="font-serif text-2xl leading-relaxed italic text-terracotta">
+            Every conversation begins with a simple introduction.
+          </p>
+          <h2 id="callback-title" class="mt-2 text-3xl leading-tight font-medium sm:text-4xl">Request a Call-Back</h2>
+          <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted">
+            Share a few scheduling details and Rhonda can get in touch. You do not need to include clinical or medical
+            information.
+          </p>
+        </header>
+
+        <form
+          id="callback-form"
+          action={mailto()}
+          method="post"
+          enctype="text/plain"
+          data-recipient={site.email}
+          class="mt-8 space-y-5"
+          aria-labelledby="callback-title"
+        >
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="callback-name" class="text-sm font-semibold text-ink">Your name <span class="text-peach">*</span></label>
+              <input
+                id="callback-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+                placeholder="What should I call you?"
+              />
+            </div>
+            <div>
+              <label for="callback-phone" class="text-sm font-semibold text-ink">Phone number <span class="text-peach">*</span></label>
+              <input
+                id="callback-phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                required
+                class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+                placeholder="(403) 000-0000"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="callback-email" class="text-sm font-semibold text-ink">Email address <span class="text-peach">*</span></label>
+            <input
+              id="callback-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <fieldset>
+              <legend class="text-sm font-semibold text-ink">Preferred contact method <span class="text-peach">*</span></legend>
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                <label class="cursor-pointer">
+                  <input class="peer sr-only" type="radio" name="contact-method" value="Phone call" required checked />
+                  <span class="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line bg-canvas px-3 py-2 text-sm text-muted transition peer-checked:border-terracotta peer-checked:bg-terracotta-tint peer-checked:text-ink peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-terracotta">
+                    <Icon name="phone" class="size-4" />
+                    Phone call
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input class="peer sr-only" type="radio" name="contact-method" value="Email" />
+                  <span class="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line bg-canvas px-3 py-2 text-sm text-muted transition peer-checked:border-terracotta peer-checked:bg-terracotta-tint peer-checked:text-ink peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-terracotta">
+                    <Icon name="mail" class="size-4" />
+                    Email
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend class="text-sm font-semibold text-ink">Province of residence <span class="text-peach">*</span></legend>
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                <label class="cursor-pointer">
+                  <input class="peer sr-only" type="radio" name="province" value="Alberta" required checked />
+                  <span class="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line bg-canvas px-3 py-2 text-sm text-muted transition peer-checked:border-terracotta peer-checked:bg-terracotta-tint peer-checked:text-ink peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-terracotta">
+                    <Icon name="map-pin" class="size-4" />
+                    Alberta
+                  </span>
+                </label>
+                <label class="cursor-pointer">
+                  <input class="peer sr-only" type="radio" name="province" value="Ontario" />
+                  <span class="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line bg-canvas px-3 py-2 text-sm text-muted transition peer-checked:border-terracotta peer-checked:bg-terracotta-tint peer-checked:text-ink peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-terracotta">
+                    <Icon name="map-pin" class="size-4" />
+                    Ontario
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div>
+            <label for="callback-note" class="text-sm font-semibold text-ink">
+              Preferred times or a brief question <span class="font-normal text-muted">(optional)</span>
+            </label>
+            <textarea
+              id="callback-note"
+              name="note"
+              rows="4"
+              class="mt-2 w-full resize-y rounded-xl border border-line bg-canvas px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+              placeholder="Share a good time to reach you or ask a general question. Please do not include private health information."
+            ></textarea>
+            <p class="mt-2 text-xs leading-relaxed text-muted">
+              This form opens a message in your email app; nothing is sent until you choose to send it. Please keep your
+              message to scheduling details.
+            </p>
+          </div>
+
+          <div class="text-center">
+            <button
+              type="submit"
+              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-action px-8 py-3 text-sm font-semibold text-white shadow-card transition duration-200 hover:-translate-y-px hover:bg-action-hover hover:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+            >
+              Prepare Call-Back Request
+              <Icon name="arrow-up-right" class="size-4" />
+            </button>
+          </div>
+        </form>
+      </Card>
+
+      <p class="mt-6 text-center text-sm text-muted">
+        Prefer to arrange a complimentary conversation by email?&nbsp;
+        <a href={consultHref} class="font-semibold text-terracotta underline decoration-terracotta/40 underline-offset-4 hover:decoration-terracotta">
+          Email Rhonda
+        </a>
+      </p>
+    </Container>
+  </section>
+
+  <section aria-labelledby="faq-title" class="bg-canvas py-16 sm:py-20">
+    <Container width="content">
+      <div class="mx-auto max-w-3xl">
+        <header class="mb-7 text-center">
+          <p class="text-[0.6875rem] font-semibold tracking-[0.12em] text-terracotta uppercase">Common Questions</p>
+          <h2 id="faq-title" class="mt-2 text-3xl leading-tight font-medium sm:text-4xl">
+            What to Expect When Connecting
+          </h2>
+          <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+            A little more about getting started, virtual sessions, and reaching out.
+          </p>
+        </header>
+        <div class="space-y-3">
+          <details class="group rounded-xl border border-line bg-surface px-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-serif text-lg font-semibold text-ink marker:hidden [&::-webkit-details-marker]:hidden">
+              What happens during the complimentary consultation?
+              <Icon name="arrow-down" class="size-4 shrink-0 text-terracotta transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="pb-5 pr-8 text-sm leading-relaxed text-muted">
+              It is a no-obligation 30-minute phone or video conversation to discuss what brings you in, review
+              availability, and see whether working together feels like a good fit.
+            </p>
+          </details>
+          <details class="group rounded-xl border border-line bg-surface px-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-serif text-lg font-semibold text-ink marker:hidden [&::-webkit-details-marker]:hidden">
+              How do virtual counselling sessions work?
+              <Icon name="arrow-down" class="size-4 shrink-0 text-terracotta transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="pb-5 pr-8 text-sm leading-relaxed text-muted">
+              Sessions are offered virtually to people residing in Alberta and Ontario. Privacy and confidentiality
+              are discussed before counselling begins.
+            </p>
+          </details>
+          <details class="group rounded-xl border border-line bg-surface px-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-serif text-lg font-semibold text-ink marker:hidden [&::-webkit-details-marker]:hidden">
+              Can I claim sessions through my workplace benefits?
+              <Icon name="arrow-down" class="size-4 shrink-0 text-terracotta transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="pb-5 pr-8 text-sm leading-relaxed text-muted">
+              Many extended health care plans cover Registered Social Worker counselling, and receipts are provided.
+              Check with your plan administrator to confirm your individual coverage.
+            </p>
+          </details>
+          <details class="group rounded-xl border border-line bg-surface px-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-serif text-lg font-semibold text-ink marker:hidden [&::-webkit-details-marker]:hidden">
+              What should I include in my first message?
+              <Icon name="arrow-down" class="size-4 shrink-0 text-terracotta transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="pb-5 pr-8 text-sm leading-relaxed text-muted">
+              A preferred way and time to reach you is enough. Please keep email and phone messages to scheduling or
+              general questions, and avoid sending sensitive health information.
+            </p>
+          </details>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section
+    aria-labelledby="contact-emergency-title"
+    class="mx-auto my-12 flex max-w-3xl gap-4 rounded-2xl border border-peach/40 bg-peach-tint p-5 shadow-card sm:my-16 sm:p-6"
+  >
+    <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-peach/15 text-peach">
+      <Icon name="alert" class="size-5" />
+    </span>
+    <div>
+      <h2 id="contact-emergency-title" class="font-sans text-base font-semibold text-ink">If you need immediate help</h2>
+      <p class="mt-2 text-sm leading-relaxed text-muted">
+        This page is not monitored for emergencies. If you are in immediate danger or crisis, call
+        &nbsp;<span class="font-semibold text-ink">911</span> or call/text Canada's
+        Suicide Crisis Helpline at <span class="font-semibold text-ink underline underline-offset-2">988</span>.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#callback-form');
+
+  if (!form) {
+    throw new Error('The call-back form could not be found.');
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    const name = String(data.get('name'));
+    const body = [
+      `Name: ${name}`,
+      `Phone: ${String(data.get('phone'))}`,
+      `Email: ${String(data.get('email'))}`,
+      `Preferred contact method: ${String(data.get('contact-method'))}`,
+      `Province: ${String(data.get('province'))}`,
+      `Preferred times or question: ${String(data.get('note') || 'Not provided')}`,
+    ].join('\n');
+    const recipient = form.dataset.recipient;
+
+    if (!recipient) {
+      throw new Error('The call-back form recipient is missing.');
+    }
+
+    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(`Call-back request from ${name}`)}&body=${encodeURIComponent(body)}`;
+  });
+</script>

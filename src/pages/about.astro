@@ -1,10 +1,13 @@
 ---
-import { Image } from 'astro:assets';
 import portrait from '../assets/rhonda-about-portrait.png';
 import { site } from '../data/site';
+import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Container from '../components/ui/Container.astro';
 import Icon from '../components/ui/Icon.astro';
+import PhotoFrame from '../components/ui/PhotoFrame.astro';
+import AnimatedHeroBackground from '../components/ui/AnimatedHeroBackground.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
 import ClosingCta from '../components/home/ClosingCta.astro';
 import Layout from '../layouts/Layout.astro';
 
@@ -62,46 +65,55 @@ const training: { name: string; description: string }[] = [
 ---
 
 <Layout title={title} description={description}>
-  <section id="more-about-me" aria-labelledby="about-title" class="bg-canvas py-14 sm:py-18 lg:py-24">
+  <section
+    id="more-about-me"
+    aria-labelledby="about-title"
+    class="relative isolate overflow-hidden bg-canvas py-16 sm:py-20 lg:py-24"
+  >
+    <AnimatedHeroBackground effect="orbits" />
+    <Container width="content" class="relative z-10">
+      <SectionHeading
+        id="about-title"
+        eyebrow="About Rhonda Hilker • MSW, RSW"
+        title="More About Me"
+        headingLevel="h1"
+        align="center"
+        titleClass="mt-3 text-4xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+      >
+        <p class="text-muted">
+          I bring over 26 years of diverse professional experience supporting and working alongside people from all
+          walks of life. Throughout my career, I have learned that every person brings a unique story, perspective,
+          and set of circumstances to the challenges they face.
+        </p>
+      </SectionHeading>
+      <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+        <Button href="/#booking" size="lg" icon="calendar" class="w-full sm:w-auto">
+          Book Appointment
+        </Button>
+        <Button href="/contact" variant="outline" size="lg" class="w-full sm:w-auto">
+          Contact Rhonda
+        </Button>
+      </div>
+    </Container>
+  </section>
+
+  <section aria-label="Rhonda's professional background" class="bg-canvas py-14 sm:py-18 lg:py-24">
     <Container>
       <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
-        <figure class="mx-auto w-full max-w-sm lg:mx-0">
-          <Card padding="sm" class="overflow-hidden">
-          <Image
-            src={portrait}
-            alt="Rhonda Hilker smiling while seated at a café"
-            widths={[226]}
-            sizes="272px"
-            loading="eager"
-            fetchpriority="high"
-            class="aspect-[226/283] w-full rounded-xl object-cover"
-          />
-            <figcaption class="flex flex-wrap items-center justify-between gap-3 px-2 pt-4 pb-2">
-              <div>
-                <p class="font-medium text-ink">Rhonda Hilker</p>
-                <p class="mt-1 text-xs text-muted">MSW, RSW</p>
-              </div>
-              <span class="inline-flex items-center gap-2 text-xs font-medium text-ink">
-                <Icon name="leaf" class="size-4 text-peach" />
-                26+ Years Experience
-              </span>
-            </figcaption>
-          </Card>
-        </figure>
+        <PhotoFrame
+          src={portrait}
+          alt="Rhonda Hilker smiling while seated at a café"
+        >
+          <div slot="caption">
+            <span class="block font-serif text-2xl leading-tight font-semibold text-white">{site.practitioner}</span>
+            <span class="mt-1 block text-[0.625rem] font-medium tracking-[0.14em] text-white/80 uppercase">
+              {site.credentials} &middot; 26+ Years Experience
+            </span>
+          </div>
+        </PhotoFrame>
 
         <div>
-          <p class="text-[0.6875rem] font-semibold tracking-[0.12em] text-muted uppercase">
-            About Rhonda Hilker • MSW, RSW
-          </p>
-          <h1 id="about-title" class="mt-3 text-4xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-5xl">
-            More About Me
-          </h1>
-          <div class="mt-6 space-y-4 text-sm leading-[1.7] text-ink sm:text-base">
-            <p class="text-base leading-[1.65] font-medium text-forest sm:text-lg">
-              I bring over 26 years of diverse professional experience supporting and working alongside people from all
-              walks of life. Throughout my career, I have learned that every person brings a unique story, perspective,
-              and set of circumstances to the challenges they face.
-            </p>
+          <div class="space-y-4 text-sm leading-[1.7] text-ink sm:text-base">
             <p>
               My early professional experience in healthcare taught me skills that have stayed with me: how to listen
               with genuine curiosity, respect differences in people's experiences and circumstances, recognize how
@@ -127,9 +139,9 @@ const training: { name: string; description: string }[] = [
       <div class="mt-10 grid gap-5 md:grid-cols-2 lg:mt-12">
         <Card class="h-full">
           <div class="flex items-center justify-between gap-4">
-            <h2 class="text-lg font-semibold tracking-[0.04em] text-ink uppercase">Clinical Registrations</h2>
+            <h2 class="text-xl font-semibold text-ink ">Clinical Registrations</h2>
             <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-sage-tint text-terracotta">
-              <Icon name="shield-check" class="size-5" />
+              <Icon name="badge-check" class="size-5" />
             </span>
           </div>
           <ul class="mt-5 grid gap-5 border-t border-line pt-5 sm:grid-cols-2">
@@ -146,9 +158,9 @@ const training: { name: string; description: string }[] = [
 
         <Card class="h-full">
           <div class="flex items-center justify-between gap-4">
-            <h2 class="text-lg font-semibold tracking-[0.04em] text-ink uppercase">Academic Background</h2>
+            <h2 class="text-xl font-semibold text-ink">Academic Background</h2>
             <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-peach-tint text-peach">
-              <Icon name="presentation" class="size-5" />
+              <Icon name="graduation-cap" class="size-5" />
             </span>
           </div>
           <div class="mt-5 border-t border-line pt-5">
@@ -162,15 +174,12 @@ const training: { name: string; description: string }[] = [
 
   <section aria-labelledby="training-title" class="bg-tint py-16 sm:py-20 lg:py-24">
     <Container>
-      <header class="max-w-3xl">
-        <p class="flex items-center gap-3 text-[0.6875rem] font-semibold tracking-[0.12em] text-muted uppercase">
-          <Icon name="circle-check" class="size-4 text-terracotta" />
-          Evidence-Based Practices
-        </p>
-        <h2 id="training-title" class="mt-3 text-3xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-4xl">
-          Clinical Training
-        </h2>
-      </header>
+      <SectionHeading
+        id="training-title"
+        eyebrow="Evidence-Based Practices"
+        title="Clinical Training"
+        titleClass="mt-3 text-3xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-4xl"
+      />
 
       <ol class="mt-9 divide-y divide-line border-y border-line lg:mt-12">
         {
