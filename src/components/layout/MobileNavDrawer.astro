@@ -9,7 +9,7 @@ const getNavHref = (href: string) => {
   if (onHomePage) return href;
   return `/${href}`;
 };
-const bookingHref = onHomePage ? '#booking' : '/#booking';
+const bookingHref = onHomePage ? '#' : '/#';
 ---
 
 <button
