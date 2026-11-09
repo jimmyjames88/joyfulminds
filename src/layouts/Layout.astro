@@ -1,5 +1,6 @@
 ---
 import { Font } from 'astro:assets';
+import MobileNavDrawer from '../components/layout/MobileNavDrawer.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import { site } from '../data/site';
@@ -51,10 +52,13 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
     >
       Skip to main content
     </a>
-    <SiteHeader />
-    <main id="main" tabindex="-1" class="focus:outline-none">
-      <slot />
-    </main>
-    <SiteFooter />
+    <div data-page-shell>
+      <SiteHeader />
+      <main id="main" tabindex="-1" class="focus:outline-none">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
+    <MobileNavDrawer />
   </body>
 </html>

@@ -1,0 +1,194 @@
+---
+import { primaryNav, serviceNav } from '../../data/site';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+
+const onHomePage = Astro.url.pathname === '/';
+const getNavHref = (href: string) => {
+  if (href.startsWith('/')) return href;
+  if (onHomePage) return href;
+  return `/${href}`;
+};
+const bookingHref = onHomePage ? '#booking' : '/#booking';
+---
+
+<button
+  type="button"
+  class="fixed inset-0 z-[60] bg-black/40 transition-opacity duration-300 motion-reduce:transition-none"
+  aria-label="Close navigation menu"
+  data-mobile-nav-backdrop
+  hidden
+></button>
+
+<aside
+  id="mobile-nav-drawer"
+  class="fixed inset-y-0 right-0 z-[70] flex w-screen translate-x-full data-[open]:translate-x-0 flex-col overflow-y-auto border-l border-line bg-surface p-5 shadow-lift transition-transform duration-300 ease-in-out motion-reduce:transition-none lg:hidden"
+  aria-label="Mobile navigation"
+  aria-hidden="true"
+  inert
+  data-mobile-nav-drawer
+>
+  <div class="flex items-center justify-between gap-4 border-b border-line pb-5">
+    <span class="font-serif text-xl font-semibold text-ink">Menu</span>
+    <button
+      type="button"
+      class="grid size-10 shrink-0 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+      aria-label="Close navigation menu"
+      data-mobile-nav-close
+    >
+      <Icon name="close" class="size-5" />
+    </button>
+  </div>
+
+  <nav aria-label="Mobile" class="mt-5">
+    <ul class="flex flex-col gap-1">
+      {
+        primaryNav.map((link) =>
+          link.label === 'Services' ? (
+            <li>
+              <details class="group" data-mobile-services-menu>
+                <summary class="flex cursor-pointer list-none items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-ink hover:bg-tint hover:text-terracotta [&::-webkit-details-marker]:hidden">
+                  Services
+                  <Icon name="arrow-down" class="size-3 transition-transform group-open:rotate-180" />
+                </summary>
+                <ul class="ml-4 border-l border-line py-1 pl-2">
+                  {serviceNav.map((service) => (
+                    <li>
+                      <a
+                        href={service.href}
+                        class="block rounded-lg px-3 py-2.5 text-sm text-muted hover:bg-tint hover:text-terracotta"
+                      >
+                        {service.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={getNavHref(link.href)}
+                class="block rounded-xl px-4 py-3 text-sm font-medium text-ink hover:bg-tint hover:text-terracotta"
+              >
+                {link.label}
+              </a>
+            </li>
+          ),
+        )
+      }
+    </ul>
+  </nav>
+
+  <span class="mt-auto block pt-6 sm:hidden">
+    <Button href={bookingHref} variant="forest" size="sm" block icon="arrow-up-right">
+      Book Appointment
+    </Button>
+  </span>
+</aside>
+
+<style is:global>
+  body {
+    overflow-x: clip;
+  }
+
+  [data-page-shell] {
+    transition: transform 300ms ease-in-out;
+  }
+
+  html[data-mobile-nav-open] [data-page-shell] {
+    transform: translateX(-100vw);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-page-shell] {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-mobile-nav-toggle]');
+  const drawer = document.querySelector<HTMLElement>('[data-mobile-nav-drawer]');
+  const closeButton = document.querySelector<HTMLButtonElement>('[data-mobile-nav-close]');
+  const backdrop = document.querySelector<HTMLButtonElement>('[data-mobile-nav-backdrop]');
+
+  if (!toggle || !drawer || !closeButton || !backdrop) {
+    throw new Error('The mobile navigation drawer controls could not be found.');
+  }
+
+  const menuToggle = toggle;
+  const mobileDrawer = drawer;
+  const drawerCloseButton = closeButton;
+  const backdropButton = backdrop;
+
+  function setOpen(open: boolean, restoreFocus = true) {
+    document.documentElement.toggleAttribute('data-mobile-nav-open', open);
+    document.body.classList.toggle('overflow-hidden', open);
+    mobileDrawer.toggleAttribute('data-open', open);
+    mobileDrawer.inert = !open;
+    mobileDrawer.setAttribute('aria-hidden', String(!open));
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    backdropButton.hidden = !open;
+
+    if (open) {
+      drawerCloseButton.focus();
+    } else if (restoreFocus) {
+      menuToggle.focus();
+    }
+  }
+
+  menuToggle.addEventListener('click', () => setOpen(menuToggle.getAttribute('aria-expanded') !== 'true'));
+  drawerCloseButton.addEventListener('click', () => setOpen(false));
+  backdropButton.addEventListener('click', () => setOpen(false));
+
+  mobileDrawer.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('a')) setOpen(false, false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (menuToggle.getAttribute('aria-expanded') !== 'true') {
+      if (event.key === 'Escape') {
+        const openServicesMenu = document.querySelector<HTMLDetailsElement>('[data-services-menu][open]');
+        if (openServicesMenu) {
+          openServicesMenu.open = false;
+          openServicesMenu.querySelector('summary')?.focus();
+        }
+      }
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      const openServicesMenu = mobileDrawer.querySelector<HTMLDetailsElement>('[data-mobile-services-menu][open]');
+      if (openServicesMenu) {
+        openServicesMenu.open = false;
+        openServicesMenu.querySelector('summary')?.focus();
+      } else {
+        setOpen(false);
+      }
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+    const focusable = Array.from(
+      mobileDrawer.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((element) => element.getClientRects().length > 0);
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
+  });
+
+  matchMedia('(min-width: 64rem)').addEventListener('change', (event) => {
+    if (event.matches && menuToggle.getAttribute('aria-expanded') === 'true') setOpen(false, false);
+  });
+</script>

@@ -65,82 +65,16 @@ const bookingHref = onHomePage ? '#booking' : '/#booking';
         <Button href={bookingHref} variant="forest" size="sm" icon="arrow-up-right" class="whitespace-nowrap">Book Appointment</Button>
       </span>
 
-      <details class="group relative lg:hidden" data-mobile-nav>
-        <summary
-          class="grid size-10 cursor-pointer list-none place-items-center rounded-full border border-line bg-surface text-forest [&::-webkit-details-marker]:hidden"
-        >
-          <span class="sr-only">Menu</span>
-          <Icon name="menu" class="size-5 group-open:hidden" />
-          <Icon name="close" class="hidden size-5 group-open:block" />
-        </summary>
-        <nav
-          aria-label="Mobile"
-          class="absolute top-full right-0 mt-3 w-64 rounded-2xl border border-line bg-surface p-3 shadow-lift"
-        >
-          <ul class="flex flex-col">
-            {
-              primaryNav.map((link) => (
-                link.label === 'Services' ? (
-                  <li>
-                    <details class="group" data-services-menu>
-                      <summary class="flex cursor-pointer list-none items-center justify-between rounded-xl px-4 py-3 text-sm text-ink hover:bg-tint hover:text-terracotta [&::-webkit-details-marker]:hidden">
-                        Services
-                        <Icon name="arrow-down" class="size-3 transition-transform group-open:rotate-180" />
-                      </summary>
-                      <ul class="ml-4 border-l border-line py-1 pl-2">
-                        {serviceNav.map((service) => (
-                          <li>
-                            <a
-                              href={service.href}
-                              class="block rounded-lg px-3 py-2 text-sm text-muted hover:bg-tint hover:text-terracotta"
-                            >
-                              {service.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  </li>
-                ) : (
-                  <li>
-                    <a
-                      href={getNavHref(link.href)}
-                      class="block rounded-xl px-4 py-3 text-sm text-ink hover:bg-tint hover:text-terracotta"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                )
-              ))
-            }
-          </ul>
-          <span class="block sm:hidden">
-            <Button href={bookingHref} variant="forest" size="sm" block icon="arrow-up-right" class="mt-2">
-              Book Appointment
-            </Button>
-          </span>
-        </nav>
-      </details>
+      <button
+        type="button"
+        class="grid size-10 place-items-center rounded-full border border-line bg-surface text-forest focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta lg:hidden"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav-drawer"
+        data-mobile-nav-toggle
+      >
+        <Icon name="menu" class="size-5" />
+      </button>
     </div>
   </Container>
 </header>
-
-<script>
-  // Close the mobile disclosure after navigating or pressing Escape.
-  const menu = document.querySelector<HTMLDetailsElement>('[data-mobile-nav]');
-  menu?.addEventListener('click', (event) => {
-    if ((event.target as Element).closest('a')) menu.open = false;
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') return;
-
-    const openServicesMenu = document.querySelector<HTMLDetailsElement>('[data-services-menu][open]');
-    if (openServicesMenu) {
-      openServicesMenu.open = false;
-      openServicesMenu.querySelector('summary')?.focus();
-    } else if (menu?.open) {
-      menu.open = false;
-      menu.querySelector('summary')?.focus();
-    }
-  });
-</script>
