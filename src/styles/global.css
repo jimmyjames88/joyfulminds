@@ -44,6 +44,10 @@
     @apply bg-canvas font-sans text-ink antialiased;
   }
 
+  button:not(:disabled):not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+
   h1,
   h2,
   h3 {
@@ -53,6 +57,21 @@
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-terracotta;
   }
+}
+
+.text-terracotta,
+.hover\:text-terracotta:hover {
+  text-shadow: 0 0 0.65em color-mix(in srgb, var(--color-terracotta) 48%, transparent);
+}
+
+a.bg-action,
+button.bg-action {
+  box-shadow: 0 0 1rem color-mix(in srgb, var(--color-terracotta) 30%, transparent), var(--shadow-card);
+}
+
+a.bg-action:hover,
+button.bg-action:hover {
+  box-shadow: var(--shadow-lift), 0 0 1rem color-mix(in srgb, var(--color-terracotta) 38%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
