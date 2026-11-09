@@ -36,4 +36,4 @@ export const serviceNav: NavLink[] = services.map(({ label, slug }) => ({
   href: `/services/${slug}`,
 }));
 
-export const consultHref = mailto('Free 30-minute consultation');
+export const consultHref = '#'
