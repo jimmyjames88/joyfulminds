@@ -22,7 +22,7 @@ const bookingHref = onHomePage ? '#' : '/#';
 
 <aside
   id="mobile-nav-drawer"
-  class="fixed inset-y-0 right-0 z-[70] flex w-screen translate-x-full data-[open]:translate-x-0 flex-col overflow-y-auto border-l border-line bg-surface p-5 shadow-lift transition-transform duration-300 ease-in-out motion-reduce:transition-none lg:hidden"
+  class="fixed inset-y-0 right-0 z-[70] flex w-screen translate-x-full data-[open]:translate-x-0 flex-col overscroll-contain overflow-y-auto border-l border-line bg-surface p-5 shadow-lift transition-transform duration-300 ease-in-out motion-reduce:transition-none lg:hidden"
   aria-label="Mobile navigation"
   aria-hidden="true"
   inert
@@ -112,8 +112,9 @@ const bookingHref = onHomePage ? '#' : '/#';
   const drawer = document.querySelector<HTMLElement>('[data-mobile-nav-drawer]');
   const closeButton = document.querySelector<HTMLButtonElement>('[data-mobile-nav-close]');
   const backdrop = document.querySelector<HTMLButtonElement>('[data-mobile-nav-backdrop]');
+  const pageShell = document.querySelector<HTMLElement>('[data-page-shell]');
 
-  if (!toggle || !drawer || !closeButton || !backdrop) {
+  if (!toggle || !drawer || !closeButton || !backdrop || !pageShell) {
     throw new Error('The mobile navigation drawer controls could not be found.');
   }
 
@@ -121,10 +122,31 @@ const bookingHref = onHomePage ? '#' : '/#';
   const mobileDrawer = drawer;
   const drawerCloseButton = closeButton;
   const backdropButton = backdrop;
+  const pageContent = pageShell;
+  let pageScrollY = 0;
 
   function setOpen(open: boolean, restoreFocus = true) {
+    if (open) {
+      pageScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${pageScrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      const scrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, pageScrollY);
+      document.documentElement.style.scrollBehavior = scrollBehavior;
+    }
+
     document.documentElement.toggleAttribute('data-mobile-nav-open', open);
-    document.body.classList.toggle('overflow-hidden', open);
+    pageContent.inert = open;
     mobileDrawer.toggleAttribute('data-open', open);
     mobileDrawer.inert = !open;
     mobileDrawer.setAttribute('aria-hidden', String(!open));
@@ -133,9 +155,9 @@ const bookingHref = onHomePage ? '#' : '/#';
     backdropButton.hidden = !open;
 
     if (open) {
-      drawerCloseButton.focus();
+      drawerCloseButton.focus({ preventScroll: true });
     } else if (restoreFocus) {
-      menuToggle.focus();
+      menuToggle.focus({ preventScroll: true });
     }
   }
 
@@ -163,7 +185,7 @@ const bookingHref = onHomePage ? '#' : '/#';
       const openServicesMenu = mobileDrawer.querySelector<HTMLDetailsElement>('[data-mobile-services-menu][open]');
       if (openServicesMenu) {
         openServicesMenu.open = false;
-        openServicesMenu.querySelector('summary')?.focus();
+        openServicesMenu.querySelector('summary')?.focus({ preventScroll: true });
       } else {
         setOpen(false);
       }
@@ -181,10 +203,10 @@ const bookingHref = onHomePage ? '#' : '/#';
 
     if (event.shiftKey && document.activeElement === first) {
       event.preventDefault();
-      last?.focus();
+      last?.focus({ preventScroll: true });
     } else if (!event.shiftKey && document.activeElement === last) {
       event.preventDefault();
-      first?.focus();
+      first?.focus({ preventScroll: true });
     }
   });
 
