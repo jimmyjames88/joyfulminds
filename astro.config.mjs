@@ -1,6 +1,7 @@
 ﻿// @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 
+import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
@@ -26,6 +27,7 @@ export default defineConfig({
       fallbacks: ['system-ui', 'sans-serif'],
     },
   ],
+  adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
   },

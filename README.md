@@ -41,6 +41,16 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## Contact form email
+
+The call-back form sends submissions through the Astro `/api/callback` endpoint and Resend. Configure these environment
+variables for local development and in the Vercel project settings:
+
+- `RESEND_API_KEY`: a Resend API key, kept server-side.
+- `RESEND_FROM_EMAIL`: a sender address verified with Resend, such as `Joyful Minds Counselling <hello@your-domain.ca>`.
+
+Copy `.env.example` to `.env` for local development. The recipient address is configured in `src/data/site.ts`.
+
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

@@ -98,13 +98,16 @@ const description =
 
         <form
           id="callback-form"
-          action={mailto()}
+          action="/api/callback"
           method="post"
-          enctype="text/plain"
-          data-recipient={site.email}
           class="mt-8 space-y-5"
           aria-labelledby="callback-title"
         >
+          <div class="sr-only" aria-hidden="true">
+            <label for="callback-website">Leave this field empty</label>
+            <input id="callback-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
           <div class="grid gap-5 sm:grid-cols-2">
             <div>
               <label for="callback-name" class="text-sm font-semibold text-ink">Your name <span class="text-peach">*</span></label>
@@ -113,6 +116,7 @@ const description =
                 name="name"
                 type="text"
                 autocomplete="name"
+                maxlength="120"
                 required
                 class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
                 placeholder="What should I call you?"
@@ -125,6 +129,7 @@ const description =
                 name="phone"
                 type="tel"
                 autocomplete="tel"
+                maxlength="40"
                 required
                 class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
                 placeholder="(403) 000-0000"
@@ -139,6 +144,7 @@ const description =
               name="email"
               type="email"
               autocomplete="email"
+              maxlength="254"
               required
               class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
               placeholder="you@example.com"
@@ -195,24 +201,26 @@ const description =
               id="callback-note"
               name="note"
               rows="4"
+              maxlength="1000"
               class="mt-2 w-full resize-y rounded-xl border border-line bg-canvas px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
               placeholder="Share a good time to reach you or ask a general question. Please do not include private health information."
             ></textarea>
             <p class="mt-2 text-xs leading-relaxed text-muted">
-              This form opens a message in your email app; nothing is sent until you choose to send it. Please keep your
-              message to scheduling details.
+              This sends your request directly to Rhonda. Please keep your message to scheduling details and do not
+              include private health information.
             </p>
           </div>
 
           <div class="text-center">
             <button
               type="submit"
-              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-action px-8 py-3 text-sm font-semibold text-white shadow-card transition duration-200 hover:-translate-y-px hover:bg-action-hover hover:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-action px-8 py-3 text-sm font-semibold text-white shadow-card transition duration-200 hover:-translate-y-px hover:bg-action-hover hover:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta disabled:cursor-wait disabled:opacity-70"
             >
-              Prepare Call-Back Request
+              Send Call-Back Request
               <Icon name="arrow-up-right" class="size-4" />
             </button>
           </div>
+          <p id="callback-status" class="text-center text-sm text-muted" role="status" aria-live="polite"></p>
         </form>
       </Card>
 
@@ -229,7 +237,7 @@ const description =
     <Container width="content">
       <div class="mx-auto max-w-3xl">
         <header class="mb-7 text-center">
-          <p class="text-[0.6875rem] font-semibold tracking-[0.12em] text-terracotta uppercase">Common Questions</p>
+          <p class="text-[0.6875rem] font-semibold tracking-[0.12em] uppercase">Common Questions</p>
           <h2 id="faq-title" class="mt-2 text-3xl leading-tight font-medium sm:text-4xl">
             What to Expect When Connecting
           </h2>
@@ -308,25 +316,46 @@ const description =
     throw new Error('The call-back form could not be found.');
   }
 
-  form.addEventListener('submit', (event) => {
+  const status = form.querySelector<HTMLElement>('#callback-status');
+  const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+  if (!status || !submitButton) {
+    throw new Error('The call-back form status or submit button could not be found.');
+  }
+
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    status.textContent = 'Sending your request...';
+    status.classList.remove('text-terracotta', 'text-sage');
+    submitButton.disabled = true;
 
-    const data = new FormData(form);
-    const name = String(data.get('name'));
-    const body = [
-      `Name: ${name}`,
-      `Phone: ${String(data.get('phone'))}`,
-      `Email: ${String(data.get('email'))}`,
-      `Preferred contact method: ${String(data.get('contact-method'))}`,
-      `Province: ${String(data.get('province'))}`,
-      `Preferred times or question: ${String(data.get('note') || 'Not provided')}`,
-    ].join('\n');
-    const recipient = form.dataset.recipient;
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      const payload: unknown = await response.json();
+      const message =
+        typeof payload === 'object' && payload !== null && 'message' in payload && typeof payload.message === 'string'
+          ? payload.message
+          : undefined;
 
-    if (!recipient) {
-      throw new Error('The call-back form recipient is missing.');
+      if (!response.ok) {
+        status.textContent = message ?? 'Your request could not be sent. Please try again or email Rhonda directly.';
+        status.classList.add('text-terracotta');
+        return;
+      }
+
+      status.textContent = message ?? 'Your request has been sent.';
+      status.classList.add('text-sage');
+      form.reset();
+    } catch (error) {
+      console.error('Call-back form submission failed.', error);
+      status.textContent = 'Your request could not be sent. Please try again or email Rhonda directly.';
+      status.classList.add('text-terracotta');
+    } finally {
+      submitButton.disabled = false;
     }
-
-    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(`Call-back request from ${name}`)}&body=${encodeURIComponent(body)}`;
   });
 </script>

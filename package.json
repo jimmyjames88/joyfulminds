@@ -13,11 +13,22 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.4",
+    "@astrojs/vercel": "^11.0.20",
     "astro": "^7.4.5",
+    "resend": "^6.37.0",
     "tailwindcss": "^4.3.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@types/node": "^22.15.30",
     "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "@vercel/nft": {
+      "glob": "^14.0.4"
+    },
+    "@vercel/routing-utils": {
+      "path-to-regexp": "^6.3.0"
+    }
   }
 }
