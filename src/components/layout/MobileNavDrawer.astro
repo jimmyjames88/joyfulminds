@@ -108,6 +108,9 @@ const bookingHref = onHomePage ? '#' : '/#';
 </style>
 
 <script>
+  document.addEventListener('astro:page-load', () => {
+  const controller = new AbortController();
+  const { signal } = controller;
   const toggle = document.querySelector<HTMLButtonElement>('[data-mobile-nav-toggle]');
   const drawer = document.querySelector<HTMLElement>('[data-mobile-nav-drawer]');
   const closeButton = document.querySelector<HTMLButtonElement>('[data-mobile-nav-close]');
@@ -208,9 +211,15 @@ const bookingHref = onHomePage ? '#' : '/#';
       event.preventDefault();
       first?.focus({ preventScroll: true });
     }
-  });
+  }, { signal });
 
   matchMedia('(min-width: 64rem)').addEventListener('change', (event) => {
     if (event.matches && menuToggle.getAttribute('aria-expanded') === 'true') setOpen(false, false);
+  }, { signal });
+
+  document.addEventListener('astro:before-swap', () => {
+    if (menuToggle.getAttribute('aria-expanded') === 'true') setOpen(false, false);
+    controller.abort();
+  }, { once: true });
   });
 </script>

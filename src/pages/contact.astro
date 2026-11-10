@@ -97,6 +97,7 @@ const description =
         </header>
 
         <form
+          data-astro-reload
           id="callback-form"
           action="/api/callback"
           method="post"
@@ -310,11 +311,10 @@ const description =
 </Layout>
 
 <script>
+  document.addEventListener('astro:page-load', () => {
   const form = document.querySelector<HTMLFormElement>('#callback-form');
 
-  if (!form) {
-    throw new Error('The call-back form could not be found.');
-  }
+  if (!form) return;
 
   const status = form.querySelector<HTMLElement>('#callback-status');
   const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -357,5 +357,6 @@ const description =
     } finally {
       submitButton.disabled = false;
     }
+  });
   });
 </script>

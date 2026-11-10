@@ -14,7 +14,7 @@ const getNavHref = (href: string) => {
 const bookingHref = onHomePage ? '#' : '/#';
 ---
 
-<header class="sticky top-0 z-50 border-b border-line bg-forest-deep/50 backdrop-blur-md">
+<header class="sticky top-0 z-50 border-b border-line bg-forest-deep/50 backdrop-blur-md" transition:name="site-header" transition:animate="none">
   <Container class="flex h-18 items-center justify-between gap-6 py-2">
     <a href="/" class="rounded-md" aria-label="Joyful Minds Counselling — home">
       <Logo theme="dark" />

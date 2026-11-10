@@ -1,11 +1,12 @@
-<div class="somatic-aura" aria-hidden="true">
+<somatic-dot-aura class="somatic-aura" aria-hidden="true">
   <canvas data-somatic-dot-aura></canvas>
   <div class="somatic-aura__glow"></div>
   <div class="somatic-aura__vignette"></div>
-</div>
+</somatic-dot-aura>
 
 <style>
   .somatic-aura {
+    display: block;
     position: absolute;
     z-index: 0;
     inset: 0;
@@ -58,10 +59,7 @@
     return value;
   }
 
-  const canvas = requireValue(
-    document.querySelector<HTMLCanvasElement>('[data-somatic-dot-aura]'),
-    'Somatic dot aura canvas was not found.',
-  );
+  function initialize(canvas: HTMLCanvasElement): () => void {
   const context = requireValue(
     canvas.getContext('2d', { alpha: true }),
     'Somatic dot aura could not acquire a 2D canvas context.',
@@ -252,4 +250,31 @@
   pointerTarget.addEventListener('pointerleave', handlePointerLeave, { passive: true });
   motionPreference.addEventListener('change', handleMotionChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
+  return () => {
+    stop();
+    window.clearTimeout(resizeTimer);
+    window.removeEventListener('resize', handleResize);
+    pointerTarget.removeEventListener('pointermove', handlePointerMove);
+    pointerTarget.removeEventListener('pointerleave', handlePointerLeave);
+    motionPreference.removeEventListener('change', handleMotionChange);
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
+  }
+
+  class SomaticDotAura extends HTMLElement {
+    private cleanup?: () => void;
+    connectedCallback() {
+      const canvas = requireValue(
+        this.querySelector<HTMLCanvasElement>('[data-somatic-dot-aura]'),
+        'Somatic dot aura canvas was not found.',
+      );
+      this.cleanup = initialize(canvas);
+    }
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+  if (!customElements.get('somatic-dot-aura')) {
+    customElements.define('somatic-dot-aura', SomaticDotAura);
+  }
 </script>

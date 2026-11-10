@@ -1,5 +1,6 @@
 ---
 import { Font } from 'astro:assets';
+import { ClientRouter, fade } from 'astro:transitions';
 import MobileNavDrawer from '../components/layout/MobileNavDrawer.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
 import SiteHeader from '../components/layout/SiteHeader.astro';
@@ -41,6 +42,7 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
     <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
 
     <meta name="theme-color" content="#17111F" />
+    <ClientRouter fallback="swap" />
 
     <Font cssVariable="--font-cormorant" preload />
     <Font cssVariable="--font-jakarta" preload />
@@ -54,7 +56,7 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
     </a>
     <div data-page-shell>
       <SiteHeader />
-      <main id="main" tabindex="-1" class="focus:outline-none">
+      <main id="main" tabindex="-1" class="focus:outline-none" transition:name="page-content" transition:animate={fade({ duration: '600ms' })}>
         <slot />
       </main>
       <SiteFooter />
