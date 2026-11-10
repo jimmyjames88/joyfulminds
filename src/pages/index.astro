@@ -3,8 +3,8 @@ import Booking from '../components/home/Booking.astro';
 import ClosingCta from '../components/home/ClosingCta.astro';
 import FocusAreas from '../components/home/FocusAreas.astro';
 import Hero from '../components/home/Hero.astro';
+import ServiceCategories from '../components/home/ServiceCategories.astro';
 import TherapistSpotlight from '../components/home/TherapistSpotlight.astro';
-import Workshops from '../components/home/Workshops.astro';
 import portrait from '../assets/rhonda-hilker-portrait.png';
 import Layout from '../layouts/Layout.astro';
 
@@ -16,8 +16,8 @@ const description =
 <Layout title={title} description={description}>
   <Hero />
   <TherapistSpotlight portrait={portrait} />
+  <ServiceCategories />
   <FocusAreas />
-  <Workshops />
   <Booking />
   <ClosingCta />
 </Layout>

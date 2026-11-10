@@ -1,0 +1,56 @@
+---
+import type { FocusArea } from '../data/focusAreas';
+import FocusCard from './home/FocusCard.astro';
+import Button from './ui/Button.astro';
+
+interface Props {
+  areas: readonly FocusArea[];
+}
+
+const { areas } = Astro.props;
+const midpoint = Math.ceil(areas.length / 2);
+---
+
+<div data-focus-accordion>
+  <div class="mt-8 flex justify-end gap-3" data-focus-controls hidden>
+    <Button as="button" variant="outline" size="sm" data-focus-expand class="min-h-11">
+      Expand All
+    </Button>
+    <Button as="button" variant="outline" size="sm" data-focus-collapse class="min-h-11">
+      Collapse All
+    </Button>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6">
+    <ul class="space-y-4">
+      {areas.slice(0, midpoint).map((area, index) => <FocusCard area={area} index={index} />)}
+    </ul>
+    <ul class="space-y-4">
+      {areas.slice(midpoint).map((area, index) => <FocusCard area={area} index={index + midpoint} />)}
+    </ul>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+  document.querySelectorAll<HTMLElement>('[data-focus-accordion]').forEach((accordion) => {
+    const controls = accordion.querySelector<HTMLElement>('[data-focus-controls]');
+
+    if (!controls) {
+      throw new Error('The focus accordion controls could not be found.');
+    }
+
+    const disclosures = accordion.querySelectorAll<HTMLDetailsElement>('details');
+
+    controls.querySelector('[data-focus-expand]')?.addEventListener('click', () => {
+      disclosures.forEach((disclosure) => { disclosure.open = true; });
+    });
+
+    controls.querySelector('[data-focus-collapse]')?.addEventListener('click', () => {
+      disclosures.forEach((disclosure) => { disclosure.open = false; });
+    });
+
+    controls.hidden = false;
+  });
+  });
+</script>

@@ -2,18 +2,23 @@
 import type { HTMLAttributes } from 'astro/types';
 import Icon, { type IconName } from './Icon.astro';
 
-type Variant = 'primary' | 'forest' | 'sage' | 'outline' | 'soft';
+type Variant = 'primary' | 'forest' | 'sage' | 'terracotta' | 'outline' | 'soft';
 type Size = 'sm' | 'md' | 'lg';
 
-interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
-  href: string;
+interface SharedProps {
   variant?: Variant;
   size?: Size;
   icon?: IconName;
   block?: boolean;
 }
 
+type Props = SharedProps & (
+  | (Omit<HTMLAttributes<'a'>, 'href'> & { as?: 'a'; href: string })
+  | (HTMLAttributes<'button'> & { as: 'button'; href?: never })
+);
+
 const {
+  as: Tag = 'a',
   href,
   variant = 'primary',
   size = 'md',
@@ -27,6 +32,7 @@ const variants: Record<Variant, string> = {
   primary: 'bg-action text-white shadow-card hover:bg-action-hover hover:shadow-lift',
   forest: 'bg-action text-white hover:bg-action-hover',
   sage: 'bg-action text-white hover:bg-action-hover',
+  terracotta: 'bg-terracotta text-forest-deep hover:bg-terracotta-hover',
   outline: 'border border-line bg-surface text-forest hover:border-sage/40 hover:bg-canvas',
   soft: 'bg-sage-tint text-forest hover:bg-sage/15',
 };
@@ -36,19 +42,25 @@ const sizes: Record<Size, string> = {
   md: 'px-6 py-3 text-sm gap-2',
   lg: 'px-7 py-3.5 text-[0.9375rem] gap-2',
 };
+
+const classes = [
+  'inline-flex items-center justify-center rounded-full text-center font-semibold leading-tight transition duration-200 ease-in-out hover:-translate-y-px',
+  variants[variant],
+  sizes[size],
+  block && 'w-full',
+  className,
+];
+const buttonType = Astro.props.as === 'button' ? Astro.props.type ?? 'button' : 'button';
 ---
 
-<a
-  href={href}
-  class:list={[
-    'inline-flex items-center justify-center rounded-full text-center font-semibold leading-tight transition duration-200 ease-in-out hover:-translate-y-px',
-    variants[variant],
-    sizes[size],
-    block && 'w-full',
-    className,
-  ]}
-  {...rest}
->
-  <slot />
-  {icon && <Icon name={icon} class="size-4" />}
-</a>
+{Tag === 'button' ? (
+  <button {...rest} type={buttonType} class:list={classes}>
+    <slot />
+    {icon && <Icon name={icon} class="size-4" />}
+  </button>
+) : (
+  <a {...rest} href={href} class:list={classes}>
+    <slot />
+    {icon && <Icon name={icon} class="size-4" />}
+  </a>
+)}

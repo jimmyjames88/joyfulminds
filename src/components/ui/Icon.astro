@@ -51,6 +51,24 @@ const icons = {
   sprout:
     '<path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>',
   close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  headset:
+    '<path d="M3 14v-3a9 9 0 0 1 18 0v7a3 3 0 0 1-3 3h-3"/><rect x="2" y="11" width="4" height="7" rx="2"/><rect x="18" y="11" width="4" height="7" rx="2"/>',
+  monitor:
+    '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  landmark:
+    '<path d="m3 8 9-5 9 5H3ZM3 21h18M5 11v7M10 11v7M14 11v7M19 11v7"/>',
+  stethoscope:
+    '<path d="M6 3H4v5a5 5 0 0 0 10 0V3h-2M9 13v3a5 5 0 0 0 10 0v-3"/><circle cx="19" cy="10" r="3"/>',
+  tooth:
+    '<path d="M12 4C8 1 3 3 3 8c0 3 2 5 3 9 .5 2 1 4 2.5 4 2 0 1-7 3.5-7s1.5 7 3.5 7c1.5 0 2-2 2.5-4 1-4 3-6 3-9 0-5-5-7-9-4Z"/><path d="M12 4c1 .8 2 1 3 1"/>',
+  'trending-up': '<path d="m3 17 6-6 4 4 8-10M15 5h6v6"/>',
+  store:
+    '<path d="M3 10V5l2-2h14l2 2v5M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M4 13v8h16v-8M9 21v-6h6v6"/>',
+  zap: '<path d="m13 2-10 12h8l-1 8L21 10h-8l1-8Z"/>',
+  'messages-square':
+    '<path d="M3 3h13v10H7l-4 4V3ZM8 17h9l4 4V8h-2"/>',
+  layers:
+    '<path d="m12 3 10 5-10 5L2 8l10-5ZM2 12l10 5 10-5M2 16l10 5 10-5"/>',
 } as const;
 
 export type IconName = keyof typeof icons;

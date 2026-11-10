@@ -2,6 +2,16 @@
 import { consultHref } from '../../data/site';
 import Button from '../ui/Button.astro';
 import Container from '../ui/Container.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'You do not have to figure this out alone. Steady, evidence-based care is one conversation away.',
+  description = 'Reach out to book a first session, or to ask any question before you decide.',
+} = Astro.props;
 ---
 
 <section aria-labelledby="closing-title" class="closing relative isolate overflow-hidden bg-forest-deep py-20 text-center lg:py-28">
@@ -10,12 +20,16 @@ import Container from '../ui/Container.astro';
       id="closing-title"
       class="text-[2rem] leading-[1.2] font-medium tracking-[-0.015em] text-white sm:text-[2.5rem] lg:text-[3rem]"
     >
-      You do not have to figure this out alone. Steady, evidence-based care is one conversation away.
+      {title}
     </h2>
     <p class="mx-auto mt-6 max-w-xl text-base leading-[1.65] text-white/75">
-      Reach out to book a first session, or to ask any question before you decide.
+      {description}
     </p>
-    <Button href={consultHref} size="lg" icon="calendar" class="mt-10">Complimentary Consult (30 Minutes)</Button>
+    {Astro.slots.has('actions') ? (
+      <div class="mt-10"><slot name="actions" /></div>
+    ) : (
+      <Button href={consultHref} size="lg" icon="calendar" class="mt-10">Complimentary Consult (30 Minutes)</Button>
+    )}
   </Container>
 </section>
 

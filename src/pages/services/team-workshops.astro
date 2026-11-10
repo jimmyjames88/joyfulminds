@@ -1,0 +1,314 @@
+---
+import portrait from '../../assets/rhonda-about-portrait.png';
+import ClosingCta from '../../components/home/ClosingCta.astro';
+import AnimatedHeroBackground from '../../components/ui/AnimatedHeroBackground.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Button from '../../components/ui/Button.astro';
+import Card from '../../components/ui/Card.astro';
+import Container from '../../components/ui/Container.astro';
+import Icon, { type IconName } from '../../components/ui/Icon.astro';
+import PhotoFrame from '../../components/ui/PhotoFrame.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import { mailto, site } from '../../data/site';
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Team Workshops | Joyful Minds Counselling';
+const description =
+  'Mental health workshops built around the needs of your team at competitive rates. Explore communication, stress, work-life balance, and well-being with Rhonda Hilker.';
+const enquiryHref = mailto('Team workshop enquiry');
+
+const topics: { title: string; icon: IconName; description: string; takeaway: string }[] = [
+  {
+    title: 'Team building',
+    icon: 'users',
+    description: 'Explore how people connect, collaborate, and contribute to a team where different perspectives have room.',
+    takeaway: 'Connection & collaboration',
+  },
+  {
+    title: 'Understanding Brains at Work',
+    icon: 'eye',
+    description: 'Make room for different ways of thinking, processing information, and responding to everyday workplace demands.',
+    takeaway: 'Awareness & understanding',
+  },
+  {
+    title: 'Self-care/Work Life Balance',
+    icon: 'leaf',
+    description: 'Consider boundaries, recovery, and realistic ways to support well-being alongside work and personal responsibilities.',
+    takeaway: 'Sustainable routines',
+  },
+  {
+    title: 'High Demand Work Places',
+    icon: 'flame',
+    description: 'Explore the impact of sustained pressure and ways to recognize when the demands on a team are becoming too much.',
+    takeaway: 'Recognizing strain',
+  },
+  {
+    title: 'Communication Skills',
+    icon: 'book-open',
+    description: 'Reflect on listening, expressing needs, and approaching difficult conversations with greater clarity and curiosity.',
+    takeaway: 'Clearer conversations',
+  },
+  {
+    title: 'Managing Stress Responses',
+    icon: 'activity',
+    description: 'Build awareness of how stress shows up in the body and behaviour, and explore practical ways to respond.',
+    takeaway: 'Awareness & regulation',
+  },
+  {
+    title: 'Prioritizing Busy Schedules',
+    icon: 'calendar',
+    description: 'Look at competing demands, capacity, and small changes that can help people approach their time more intentionally.',
+    takeaway: 'Capacity & priorities',
+  },
+  {
+    title: 'Grief in the Workplace',
+    icon: 'heart',
+    description: 'Make space to understand grief and loss, with thoughtful ways to support colleagues without assuming what they need.',
+    takeaway: 'Compassionate support',
+  },
+];
+
+const industries: { title: string; icon: IconName; description: string }[] = [
+  { title: 'Services', icon: 'headset', description: 'People-facing work, emotional demands, and the relationships at the heart of service.' },
+  { title: 'Technology', icon: 'monitor', description: 'Changing priorities, different working styles, and collaboration in fast-moving environments.' },
+  { title: 'Finance', icon: 'landmark', description: 'Busy cycles, detailed responsibilities, and finding steadiness under pressure.' },
+  { title: 'Medical', icon: 'stethoscope', description: 'Caregiving demands, communication, and the emotional weight of supporting others.' },
+  { title: 'Dental', icon: 'tooth', description: 'Patient-facing teamwork, demanding schedules, and well-being in a clinical setting.' },
+  { title: 'Sales', icon: 'trending-up', description: 'Relationship-focused work, shifting expectations, and managing the pressure to perform.' },
+  { title: 'Small Businesses', icon: 'store', description: 'Wearing many hats, navigating change, and building supportive ways of working together.' },
+  { title: 'Energy', icon: 'zap', description: 'High-demand roles, changing routines, and supporting connection across teams.' },
+];
+
+const formats: { title: string; icon: IconName; eyebrow: string; description: string; points: string[] }[] = [
+  {
+    title: 'Focused Team Session',
+    icon: 'presentation',
+    eyebrow: 'Start a conversation',
+    description: 'Discuss a focused introduction to one topic that matters to your team, with room to connect the ideas to daily work.',
+    points: ['One priority topic', 'Shared language and reflection', 'Practical ideas to take away'],
+  },
+  {
+    title: 'In-depth Workshop',
+    icon: 'messages-square',
+    eyebrow: 'Make room to explore',
+    description: 'Explore a more spacious session for related topics, discussion, and considering how the learning fits your workplace.',
+    points: ['Connected topics', 'Team discussion', 'Time to consider next steps'],
+  },
+  {
+    title: 'Connected Learning Sessions',
+    icon: 'layers',
+    eyebrow: 'Build on the conversation',
+    description: 'Ask about a sequence of sessions that could allow your team to revisit ideas and reflect on what they are learning over time.',
+    points: ['A shared theme across sessions', 'Space to reflect between meetings', 'Follow-up questions and learning'],
+  },
+];
+
+const questions = [
+  {
+    title: 'How are team workshops priced?',
+    answer: 'Workshops are built around the needs of your team at competitive rates. Please reach out with your goals, group size, and timing so we can discuss the scope and an appropriate quote.',
+  },
+  {
+    title: 'Can a workshop be tailored to our industry or team?',
+    answer: 'Yes. Start with one of the common topics or share the questions your team is navigating. We can discuss your workplace context, priorities, and what would make the session relevant to your group.',
+  },
+  {
+    title: 'What delivery options and session lengths can we discuss?',
+    answer: 'The format should fit the topic and your team. Share your preferred timing, location or online setup, and any accessibility needs. We can discuss what is possible and confirm the delivery arrangements before booking.',
+  },
+  {
+    title: 'Do participants need to share personal experiences?',
+    answer: 'A workplace learning session is not group therapy. Personal health information is not needed to make an initial enquiry. Expectations for discussion and participation can be agreed upon when planning the workshop.',
+  },
+  {
+    title: 'Can our company use a professional development or benefits budget?',
+    answer: 'Budget and coverage rules vary by organization and plan. Please confirm eligibility with your employer or provider before booking; workshop fees should not be assumed to have the same coverage as individual counselling.',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <section aria-labelledby="workshops-title" class="relative isolate overflow-hidden bg-canvas py-16 sm:py-20 lg:py-24">
+    <AnimatedHeroBackground effect="ripples" />
+    <Container width="content" class="relative z-10">
+      <SectionHeading
+        id="workshops-title"
+        eyebrow="Businesses & Organizations"
+        title="Team Workshops"
+        headingLevel="h1"
+        align="center"
+        titleClass="mt-3 text-4xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+      >
+        <p class="text-muted">
+          Mental health workshops are built around the needs of your team at competitive rates. Please reach out to
+          discuss how I can help support the well-being of your team.
+        </p>
+        <p class="text-sm text-muted">
+          Practical conversations about communication, stress, and the ways people work together.
+        </p>
+      </SectionHeading>
+
+      <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <Button href={enquiryHref} icon="mail" size="lg" class="w-full sm:w-auto">Inquire About Team Workshops</Button>
+        <Button href={site.phoneHref} variant="outline" icon="phone" size="lg" class="w-full sm:w-auto">
+          Call {site.phone}
+        </Button>
+      </div>
+      <ul class="mt-8 flex flex-wrap justify-center gap-3" aria-label="Workshop approach">
+        <li><Badge tone="outline" icon="clipboard">Built around your team</Badge></li>
+        <li><Badge tone="outline" icon="building">Competitive rates</Badge></li>
+        <li><Badge tone="outline" icon="badge-check">MSW, RSW</Badge></li>
+      </ul>
+    </Container>
+  </section>
+
+  <section aria-labelledby="topics-title" class="bg-canvas pb-20 lg:pb-24">
+    <Container>
+      <div class="border-t border-line pt-12 lg:pt-16">
+        <SectionHeading id="topics-title" title="Common Topics & Practical Takeaways">
+          <p class="text-muted">
+            A starting point for meaningful workplace conversations. Choose a focus that reflects your team's
+            needs, or bring a question we can explore together.
+          </p>
+        </SectionHeading>
+        <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          {topics.map((topic, index) => (
+            <Card as="li" class="flex h-full flex-col">
+              <span class:list={['mb-6', index % 2 === 0 ? 'text-terracotta' : 'text-peach']}>
+                <Icon name={topic.icon} class="size-6" />
+              </span>
+              <h3 class="text-xl leading-tight font-semibold">{topic.title}</h3>
+              <p class="mt-3 mb-6 text-sm leading-relaxed text-muted">{topic.description}</p>
+              <p class="mt-auto flex items-center gap-2 border-t border-line pt-4 text-xs text-ink">
+                <Icon name="circle-check" class="size-3.5 text-terracotta" />
+                {topic.takeaway}
+              </p>
+            </Card>
+          ))}
+        </ul>
+      </div>
+    </Container>
+  </section>
+
+  <section aria-labelledby="industries-title" class="bg-tint py-16 sm:py-20 lg:py-24">
+    <Container>
+      <SectionHeading id="industries-title" eyebrow="Every workplace has its own context" title="Industries & Organizations" align="center">
+        <p class="text-muted">
+          The demands of work look different across industries. We can discuss the responsibilities, relationships,
+          and pressures that shape daily life in your organization.
+        </p>
+      </SectionHeading>
+      <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+        {industries.map((industry) => (
+          <Card as="li" class="h-full">
+            <div class="flex items-center justify-between gap-4">
+              <h3 class="text-xl leading-tight font-semibold">{industry.title}</h3>
+              <Icon name={industry.icon} class="size-4 text-peach" />
+            </div>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{industry.description}</p>
+          </Card>
+        ))}
+      </ul>
+    </Container>
+  </section>
+
+  <section aria-labelledby="formats-title" class="bg-canvas py-16 sm:py-20 lg:py-24">
+    <Container>
+      <SectionHeading id="formats-title" title="Workshop Delivery Formats" align="center">
+        <p class="text-muted">
+          A starting point for planning, not a fixed package. We can discuss the session length, delivery setting,
+          and format that suit your goals and schedule.
+        </p>
+      </SectionHeading>
+      <ul class="mt-10 grid gap-5 lg:grid-cols-3">
+        {formats.map((format, index) => (
+          <Card as="li" tone={index === 1 ? 'surface' : 'tint'} class:list={['flex h-full flex-col', index === 1 && 'border-sage/50']}>
+            <span class="mb-6 grid size-11 place-items-center rounded-xl bg-sage-tint text-terracotta">
+              <Icon name={format.icon} class="size-5" />
+            </span>
+            <p class="text-xs font-medium text-peach">{format.eyebrow}</p>
+            <h3 class="mt-2 text-2xl leading-tight font-semibold">{format.title}</h3>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{format.description}</p>
+            <ul class="mt-6 space-y-3">
+              {format.points.map((point) => (
+                <li class="flex items-start gap-2 text-sm text-ink">
+                  <Icon name="check" class="mt-0.5 size-4 text-terracotta" />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        ))}
+      </ul>
+      <p class="mt-6 text-center text-xs leading-relaxed text-muted">
+        Availability, scope, and delivery arrangements are confirmed individually before booking.
+      </p>
+    </Container>
+  </section>
+
+  <section aria-labelledby="facilitator-title" class="bg-tint py-16 sm:py-20 lg:py-24">
+    <Container>
+      <div class="grid items-center gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
+        <PhotoFrame src={portrait} alt="Rhonda Hilker smiling while seated at a café" captionStyle="card">
+          <div slot="caption">
+            <span class="block font-serif text-2xl font-semibold">{site.practitioner}</span>
+            <span class="mt-1 block text-xs text-muted">{site.credentials} &middot; Registered Social Worker</span>
+          </div>
+        </PhotoFrame>
+        <div>
+          <SectionHeading id="facilitator-title" eyebrow="Meet your facilitator" title="Clinical Understanding, Everyday Application" />
+          <div class="mt-6 space-y-4 text-sm leading-relaxed text-muted">
+            <p>
+              Rhonda brings over 26 years of diverse professional experience supporting and working alongside people
+              from all walks of life. Her background in healthcare, coaching, and social work informs a warm,
+              curious, and non-judgemental approach.
+            </p>
+            <p>
+              The same attention to context that guides her counselling work creates a starting point for
+              conversations about teams: understanding people's experiences, recognizing their strengths, and
+              considering practical ways forward.
+            </p>
+          </div>
+          <ul class="mt-6 flex flex-wrap gap-3" aria-label="Clinical registrations">
+            {site.licences.map((licence) => (
+              <li><Badge tone="outline" icon="badge-check">{licence.body} {licence.number}</Badge></li>
+            ))}
+          </ul>
+          <Button href="/about" variant="terracotta" size="sm" class="mt-8" icon="arrow-up-right">More About Rhonda</Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section aria-labelledby="workshop-faq-title" class="bg-canvas py-16 sm:py-20 lg:py-24">
+    <Container width="content">
+        <SectionHeading id="workshop-faq-title" eyebrow="Frequently asked questions" title="Corporate & Group Booking Details" align="center" />
+        <div class="mt-8 space-y-3">
+          {questions.map((question) => (
+            <details class="group rounded-xl border border-line bg-tint px-5">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-serif text-lg font-semibold text-ink [&::-webkit-details-marker]:hidden">
+                {question.title}
+                <Icon name="arrow-down" class="size-4 text-terracotta transition-transform group-open:rotate-180" />
+              </summary>
+              <p class="pb-5 pr-8 text-sm leading-relaxed text-muted">{question.answer}</p>
+            </details>
+          ))}
+        </div>
+    </Container>
+  </section>
+
+  <ClosingCta
+    title="Let's Talk About Your Team"
+    description="Share your workplace, the questions your group is navigating, and your preferred timing. Please keep initial enquiries to planning details rather than personal health information."
+  >
+    <div slot="actions">
+      <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <Button href={enquiryHref} size="lg" icon="mail">Email Rhonda</Button>
+        <Button href={site.phoneHref} variant="outline" size="lg" icon="phone">{site.phone}</Button>
+      </div>
+      <a href={`mailto:${site.email}`} class="mt-5 inline-block rounded-sm text-sm text-terracotta underline underline-offset-4">
+        {site.email}
+      </a>
+    </div>
+  </ClosingCta>
+</Layout>

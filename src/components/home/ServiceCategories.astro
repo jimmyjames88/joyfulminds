@@ -1,0 +1,59 @@
+---
+import { services } from '../../data/services';
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const categories = services.map((service) => ({
+  ...service.homepage,
+  title: service.label,
+  cta: `Explore ${service.label}`,
+  href: `/services/${service.slug}`,
+}));
+---
+
+<section id="services" aria-labelledby="services-title" class="bg-canvas py-20 lg:py-28">
+  <Container>
+    <SectionHeading id="services-title" title="Online Counselling Services">
+      <p class="text-muted">
+        Support begins with your experience. Explore a starting point that feels right for you; we can discuss
+        your needs and whether the service is a good fit before getting started.
+      </p>
+    </SectionHeading>
+
+    <ol class="mt-12 divide-y divide-line border-y border-line lg:mt-16">
+      {categories.map((category, index) => (
+        <li class="grid gap-6 py-8 sm:py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1.2fr)] lg:items-center lg:gap-10 lg:py-12">
+          <div>
+            <span class="text-sm font-medium text-terracotta tabular-nums" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <h3 class="mt-3 text-2xl leading-tight font-semibold">{category.title}</h3>
+            <p class="mt-3 inline-block rounded-full bg-sage-tint px-3 py-1.5 text-xs font-medium text-sage">
+              {category.audience}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm leading-relaxed text-muted">{category.description}</p>
+            <ul aria-label={`${category.title} topics`} class="mt-5 flex flex-wrap gap-2">
+              {category.topics.map((topic) => (
+                <li class="flex items-center gap-2 rounded-md border border-line bg-surface px-2.5 py-1.5 text-xs text-ink">
+                  <span class="size-1 shrink-0 rounded-full bg-peach" aria-hidden="true" />
+                  {topic}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="lg:text-right">
+            <p class="mb-3 text-xs text-muted">{category.approach}</p>
+            <Button href={category.href} variant="primary" size="sm" icon="arrow-up-right">
+              {category.cta}
+            </Button>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>

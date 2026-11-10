@@ -7,6 +7,9 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://joyfulminds.ca',
+  redirects: {
+    '/services/couples-therapy': '/services/womens-counselling',
+  },
   fonts: [
     {
       provider: fontProviders.google(),

@@ -1,6 +1,6 @@
 ---
 interface Props {
-  effect?: 'heart' | 'orbits' | 'breath';
+  effect?: 'heart' | 'orbits' | 'breath' | 'connection' | 'ribbons' | 'embers' | 'ripples';
 }
 
 const { effect = 'heart' } = Astro.props;
@@ -33,6 +33,19 @@ const { effect = 'heart' } = Astro.props;
 
   .hero-background[data-effect='orbits'] {
     opacity: 0.875;
+  }
+
+  .hero-background[data-effect='connection'],
+  .hero-background[data-effect='ribbons'] {
+    opacity: 0.2;
+  }
+
+  .hero-background[data-effect='embers'] {
+    opacity: 0.4;
+  }
+
+  .hero-background[data-effect='ripples'] {
+    opacity: 0.245;
   }
 
   canvas[hidden] {
@@ -142,7 +155,232 @@ const { effect = 'heart' } = Astro.props;
       gl_FragColor = vec4(col, 1.0);
     }
   `;
-  const fragmentSources = { heart: heartSource, orbits: orbitsSource, breath: breathSource };
+  const simplexNoiseSource = `
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
+
+    float snoise(vec2 v) {
+      const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+      vec2 i = floor(v + dot(v, C.yy));
+      vec2 x0 = v - i + dot(i, C.xx);
+      vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+      vec4 x12 = x0.xyxy + C.xxzz;
+      x12.xy -= i1;
+      i = mod289(i);
+      vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+      vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+      m = m * m;
+      m = m * m;
+      vec3 x = 2.0 * fract(p * C.www) - 1.0;
+      vec3 h = abs(x) - 0.5;
+      vec3 ox = floor(x + 0.5);
+      vec3 a0 = x - ox;
+      m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+      vec3 g;
+      g.x = a0.x * x0.x + h.x * x0.y;
+      g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+      return 130.0 * dot(m, g);
+    }
+  `;
+
+  const connectionSource = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+    uniform vec3 u_base;
+    ${simplexNoiseSource}
+
+    void main() {
+      vec2 p = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      vec2 mouse = (u_mouse.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      float t = u_time * 0.14;
+      vec2 centerA = vec2(sin(t * 0.8) * 0.28 - 0.18, cos(t * 0.6) * 0.12);
+      vec2 centerB = vec2(-sin(t * 0.8) * 0.28 + 0.18, -cos(t * 0.6) * 0.12);
+      centerB += (mouse - centerB) * 0.15;
+      float distA = length(p - centerA);
+      float distB = length(p - centerB);
+      float n = snoise(p * 2.2 + vec2(t * 0.3));
+      float fieldA = exp(-distA * (2.8 + n * 0.5));
+      float fieldB = exp(-distB * (2.8 + n * 0.5));
+      float bridge = fieldA * fieldB * 4.0;
+      vec3 warmAmber = vec3(1.0, 0.725, 0.333);
+      vec3 luminousLilac = vec3(0.843, 0.729, 1.0);
+      vec3 deepPlum = vec3(0.18, 0.11, 0.26);
+      vec3 col = u_base;
+      col += deepPlum * (fieldA + fieldB) * 0.8;
+      col += warmAmber * pow(fieldA, 1.8) * 0.45;
+      col += luminousLilac * pow(fieldB, 1.8) * 0.45;
+      col += mix(warmAmber, luminousLilac, 0.5) * bridge * 0.75;
+      float orbitA = 1.0 - smoothstep(0.0, 0.02, abs(distA - 0.38 - n * 0.04));
+      float orbitB = 1.0 - smoothstep(0.0, 0.02, abs(distB - 0.38 - n * 0.04));
+      col += warmAmber * orbitA * 0.12;
+      col += luminousLilac * orbitB * 0.12;
+      col *= 1.0 - smoothstep(0.3, 1.3, length(p * vec2(0.9, 1.2)));
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+  const ribbonsSource = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+    uniform vec3 u_base;
+
+    void main() {
+      vec2 p = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      vec2 mouse = (u_mouse.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      float t = u_time * 0.25;
+      vec3 col = u_base;
+      float mDist = length(p - mouse);
+      p.y += sin(p.x * 2.0 - t * 0.5) * 0.05;
+      p.y += (mouse.y - p.y) * 0.08 * exp(-mDist * 3.0);
+      vec3 lilac = vec3(0.843, 0.729, 1.0);
+      vec3 apricot = vec3(1.0, 0.725, 0.333);
+      vec3 violet = vec3(0.66, 0.46, 0.94);
+
+      for (int i = 0; i < 7; i++) {
+        float fi = float(i) / 6.0;
+        float freq = 1.4 + fi * 0.8;
+        float phase = t * (0.6 + fi * 0.3) + float(i) * 0.9;
+        float amplitude = 0.14 + 0.06 * sin(t * 0.4 + float(i));
+        float waveY = sin(p.x * freq + phase) * amplitude;
+        waveY += cos(p.x * (freq * 0.6) - phase * 0.7) * (amplitude * 0.5);
+        float distToWave = abs(p.y - waveY);
+        float line = 1.0 - smoothstep(0.0, 0.02, distToWave);
+        float glow = exp(-distToWave * 16.0) * 0.5;
+        vec3 lineColor = mix(apricot, lilac, fi);
+        lineColor = mix(lineColor, violet, sin(p.x * 1.5 + phase) * 0.5 + 0.5);
+        col += lineColor * (line * 0.5 + glow * 0.3) * (0.8 - abs(fi - 0.5) * 0.4);
+      }
+
+      float centerGlow = exp(-length(p) * 2.0) * 0.22;
+      col += lilac * centerGlow;
+      col *= 1.0 - smoothstep(0.3, 1.3, length(p * vec2(0.9, 1.2)));
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+  const embersSource = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+    uniform vec3 u_base;
+
+    float hash(vec2 p) {
+      p = fract(p * vec2(123.34, 456.21));
+      p += dot(p, p + 45.32);
+      return fract(p.x * p.y);
+    }
+
+    void main() {
+      vec2 p = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      vec2 mouse = (u_mouse.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      float t = u_time * 0.2;
+      vec3 col = u_base;
+      vec3 deepGlow = vec3(0.15, 0.10, 0.22);
+      col += deepGlow * (1.0 - length(p * vec2(0.8, 1.2)));
+      vec3 amberGlow = vec3(1.0, 0.725, 0.333);
+      vec3 lilacGlow = vec3(0.843, 0.729, 1.0);
+
+      for (int layerIndex = 1; layerIndex <= 3; layerIndex++) {
+        float layer = float(layerIndex);
+        float speed = 0.18 * layer;
+        vec2 gridUv = p * (4.0 * layer) + vec2(0.0, -t * speed);
+        gridUv += (p - mouse) * 0.1 * exp(-length(p - mouse) * 3.0);
+        vec2 id = floor(gridUv);
+        vec2 f = fract(gridUv) - 0.5;
+
+        for (int y = -1; y <= 1; y++) {
+          for (int x = -1; x <= 1; x++) {
+            vec2 neighbor = vec2(float(x), float(y));
+            vec2 cellId = id + neighbor;
+            float rnd = hash(cellId);
+            float angle = rnd * 6.28 + u_time * (0.4 + rnd * 0.5);
+            vec2 offset = vec2(sin(angle), cos(angle)) * 0.3;
+            vec2 diff = neighbor + offset - f;
+            float dist = length(diff);
+            float pulse = 0.5 + 0.5 * sin(u_time * 1.5 + rnd * 10.0);
+            float radius = 0.05 * pulse / layer;
+            float sparkle = 1.0 - smoothstep(0.0, max(radius, 0.00001), dist);
+            float halo = exp(-dist * (14.0 * layer)) * 0.4;
+            vec3 pColor = (rnd > 0.45) ? amberGlow : lilacGlow;
+            col += pColor * (sparkle + halo) * (0.35 / layer);
+          }
+        }
+      }
+
+      float hearth = smoothstep(-0.8, 0.6, -p.y) * exp(-abs(p.x) * 1.5);
+      col += amberGlow * hearth * 0.18;
+      col *= 1.0 - smoothstep(0.3, 1.3, length(p * vec2(0.9, 1.2)));
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+  const ripplesSource = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+    uniform vec3 u_base;
+    ${simplexNoiseSource}
+
+    void main() {
+      vec2 p = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      vec2 mouse = (u_mouse.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      float breath = sin(u_time * 0.45) * 0.5 + 0.5;
+      float slowTime = u_time * 0.15;
+      p += (mouse - p) * 0.05 * exp(-length(p - mouse) * 2.5);
+      float d = length(p);
+      float angle = d > 0.0 ? atan(p.y, p.x) : 0.0;
+      vec3 col = u_base;
+      float waves = 0.0;
+
+      for (int i = 1; i <= 5; i++) {
+        float fi = float(i);
+        float radius = fi * 0.16 + breath * 0.08 - slowTime * 0.05;
+        radius = mod(radius, 0.85);
+        float ringNoise = snoise(vec2(cos(angle * 2.0 + slowTime), sin(angle * 2.0 - slowTime)) * 1.5 + fi);
+        float ringDist = abs(d - (radius + ringNoise * 0.035));
+        float intensity = (1.0 - smoothstep(0.0, 0.04, ringDist)) * (1.0 - smoothstep(0.2, 0.85, radius));
+        waves += intensity * (0.8 / fi);
+      }
+
+      vec3 lilac = vec3(0.843, 0.729, 1.0);
+      vec3 warmAmber = vec3(1.0, 0.725, 0.333);
+      vec3 deepPlum = vec3(0.18, 0.12, 0.25);
+      col += deepPlum * (1.0 - smoothstep(0.1, 0.9, d));
+      col += lilac * waves * 0.28;
+      col += warmAmber * exp(-d * 4.0) * (0.4 + 0.3 * breath);
+      col *= 1.0 - smoothstep(0.3, 1.3, d);
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+  const fragmentSources = {
+    heart: heartSource,
+    orbits: orbitsSource,
+    breath: breathSource,
+    connection: connectionSource,
+    ribbons: ribbonsSource,
+    embers: embersSource,
+    ripples: ripplesSource,
+  };
 
   function initialize(canvas: HTMLCanvasElement, effect: keyof typeof fragmentSources): () => void {
     const context = canvas.getContext('webgl', { alpha: false, antialias: false });
@@ -200,6 +438,7 @@ const { effect = 'heart' } = Astro.props;
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
     const timeUniform = gl.getUniformLocation(program, 'u_time');
     const resolutionUniform = gl.getUniformLocation(program, 'u_resolution');
+    const mouseUniform = gl.getUniformLocation(program, 'u_mouse');
     const theme = getComputedStyle(document.documentElement);
     for (const [uniform, token] of [
       ['u_base', '--color-canvas'],
@@ -225,6 +464,9 @@ const { effect = 'heart' } = Astro.props;
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(resolutionUniform, canvas.width, canvas.height);
       gl.uniform1f(timeUniform, motion.matches ? 0 : elapsed);
+      if (mouseUniform !== null) {
+        gl.uniform2f(mouseUniform, canvas.width * 0.5, canvas.height * 0.5);
+      }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
     function stop() {
@@ -285,7 +527,7 @@ const { effect = 'heart' } = Astro.props;
       const canvas = this.querySelector('canvas');
       if (!canvas) throw new Error('Animated hero background canvas was not found.');
       const effect = this.dataset.effect;
-      if (effect !== 'heart' && effect !== 'orbits' && effect !== 'breath') {
+      if (effect !== 'heart' && effect !== 'orbits' && effect !== 'breath' && effect !== 'connection' && effect !== 'ribbons' && effect !== 'embers' && effect !== 'ripples') {
         throw new Error('Invalid animated hero background effect.');
       }
       this.cleanup = initialize(canvas, effect);

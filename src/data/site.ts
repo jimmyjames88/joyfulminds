@@ -1,5 +1,3 @@
-import { services } from './services';
-
 export interface NavLink {
   label: string;
   href: string;
@@ -31,9 +29,10 @@ export const primaryNav: NavLink[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export const serviceNav: NavLink[] = services.map(({ label, slug }) => ({
-  label,
-  href: `/services/${slug}`,
-}));
+export const serviceNav: NavLink[] = [
+  ...services.map(({ label, slug }) => ({ label, href: `/services/${slug}` })),
+  { label: 'Team Workshops', href: '/services/team-workshops' },
+];
 
 export const consultHref = '#'
+import { services } from './services';
