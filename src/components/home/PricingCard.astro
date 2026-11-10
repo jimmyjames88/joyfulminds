@@ -30,13 +30,6 @@ const featured = Boolean(tier.featured);
     featured ? 'border-sage/60 shadow-lift lg:-my-3 lg:py-11' : 'border-line shadow-card',
   ]}
 >
-  {
-    featured && (
-      <Badge tone="forest" class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-2 whitespace-nowrap">
-        {tier.featured}
-      </Badge>
-    )
-  }
 
   <Badge tone={tier.labelTone} class="self-start">{tier.label}</Badge>
   <h3 class="mt-5 text-[1.375rem] leading-[1.3] font-semibold tracking-[-0.01em]">{tier.title}</h3>
