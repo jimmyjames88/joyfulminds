@@ -1,5 +1,5 @@
 ---
-import { primaryNav, serviceNav } from '../../data/site';
+import { primaryNav, serviceNav, site } from '../../data/site';
 import Button from '../ui/Button.astro';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -11,7 +11,6 @@ const getNavHref = (href: string) => {
   if (onHomePage) return href;
   return `/${href}`;
 };
-const bookingHref = onHomePage ? '#' : '/#';
 ---
 
 <header class="sticky top-0 z-50 border-b border-line bg-forest-deep/50 backdrop-blur-md" transition:name="site-header" transition:animate="none">
@@ -62,7 +61,7 @@ const bookingHref = onHomePage ? '#' : '/#';
 
     <div class="flex items-center gap-3">
       <span class="hidden sm:contents">
-        <Button href={bookingHref} variant="forest" size="sm" icon="arrow-up-right" class="whitespace-nowrap">Book Appointment</Button>
+        <Button href={site.bookingHref} target="_blank" variant="forest" size="sm" icon="arrow-up-right" class="whitespace-nowrap">Book Appointment</Button>
       </span>
 
       <button

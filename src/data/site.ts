@@ -12,6 +12,8 @@ export const site = {
   email: 'rhonda@joyfulminds.ca',
   phone: '(403) 312-6532',
   phoneHref: 'tel:+14033126532',
+  bookingHref: 'https://joyfulmindscounselling.janeapp.com/',
+  consultHref: 'https://joyfulmindscounselling.janeapp.com/#/staff_member/1/treatment/1',
   licences: [
     { province: 'Alberta', body: 'ACSW', number: '#20412' },
     { province: 'Ontario', body: 'OCSWSSW', number: '#859099' },
@@ -34,5 +36,4 @@ export const serviceNav: NavLink[] = [
   { label: 'Team Workshops', href: '/services/team-workshops' },
 ];
 
-export const consultHref = '#'
 import { services } from './services';

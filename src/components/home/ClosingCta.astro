@@ -1,5 +1,5 @@
 ---
-import { consultHref } from '../../data/site';
+import { site } from '../../data/site';
 import Button from '../ui/Button.astro';
 import Container from '../ui/Container.astro';
 
@@ -28,7 +28,7 @@ const {
     {Astro.slots.has('actions') ? (
       <div class="mt-10"><slot name="actions" /></div>
     ) : (
-      <Button href={consultHref} size="lg" icon="calendar" class="mt-10">Complimentary Consult (30 Minutes)</Button>
+      <Button href={site.consultHref} target="_blank" size="lg" icon="calendar" class="mt-10">Complimentary Consult (30 Minutes)</Button>
     )}
   </Container>
 </section>

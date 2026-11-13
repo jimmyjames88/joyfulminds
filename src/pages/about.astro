@@ -87,7 +87,7 @@ const training: { name: string; description: string }[] = [
         </p>
       </SectionHeading>
       <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-        <Button href="/#" size="lg" icon="calendar" class="w-full sm:w-auto">
+        <Button href={site.bookingHref} target="_blank" size="lg" icon="calendar" class="w-full sm:w-auto">
           Book Appointment
         </Button>
         <Button href="/contact" variant="outline" size="lg" class="w-full sm:w-auto">
@@ -140,8 +140,8 @@ const training: { name: string; description: string }[] = [
         <Card class="h-full">
           <div class="flex items-center justify-between gap-4">
             <h2 class="text-xl font-semibold text-ink ">Clinical Registrations</h2>
-            <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-sage-tint text-terracotta">
-              <Icon name="badge-check" class="size-5" />
+            <span class="grid size-10 shrink-0 place-items-center rounded-xl text-terracotta">
+              <Icon name="badge-check" class="size-6" />
             </span>
           </div>
           <ul class="mt-5 grid gap-5 border-t border-line pt-5 sm:grid-cols-2">
@@ -159,7 +159,7 @@ const training: { name: string; description: string }[] = [
         <Card class="h-full">
           <div class="flex items-center justify-between gap-4">
             <h2 class="text-xl font-semibold text-ink">Academic Background</h2>
-            <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-peach-tint text-peach">
+            <span class="grid size-10 shrink-0 place-items-center rounded-xl text-peach">
               <Icon name="graduation-cap" class="size-5" />
             </span>
           </div>

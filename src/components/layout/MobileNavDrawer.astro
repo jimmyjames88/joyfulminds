@@ -1,5 +1,5 @@
 ---
-import { primaryNav, serviceNav } from '../../data/site';
+import { primaryNav, serviceNav, site } from '../../data/site';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 
@@ -9,7 +9,6 @@ const getNavHref = (href: string) => {
   if (onHomePage) return href;
   return `/${href}`;
 };
-const bookingHref = onHomePage ? '#' : '/#';
 ---
 
 <button
@@ -81,7 +80,7 @@ const bookingHref = onHomePage ? '#' : '/#';
   </nav>
 
   <span class="mt-auto block pt-6 sm:hidden">
-    <Button href={bookingHref} variant="forest" size="sm" block icon="arrow-up-right">
+    <Button href={site.bookingHref} target="_blank" variant="forest" size="sm" block icon="arrow-up-right">
       Book Appointment
     </Button>
   </span>
