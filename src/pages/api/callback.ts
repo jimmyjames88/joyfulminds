@@ -4,8 +4,6 @@ import { site } from '../../data/site';
 
 export const prerender = false;
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const allowedContactMethods = ['Phone call', 'Email'];
 const allowedProvinces = ['Alberta', 'Ontario'];
 
 function getField(formData: FormData, name: string): string {
@@ -38,10 +36,8 @@ export const POST: APIRoute = async ({ request }) => {
 
   const name = cleanSingleLine(getField(formData, 'name'));
   const phone = cleanSingleLine(getField(formData, 'phone'));
-  const email = getField(formData, 'email');
-  const contactMethod = getField(formData, 'contact-method');
   const province = getField(formData, 'province');
-  const note = getField(formData, 'note').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '');
+  const bestTime = cleanSingleLine(getField(formData, 'best-time'));
   const honeypot = getField(formData, 'website');
 
   if (
@@ -50,11 +46,8 @@ export const POST: APIRoute = async ({ request }) => {
     name.length > 120 ||
     !phone ||
     phone.length > 40 ||
-    !emailPattern.test(email) ||
-    email.length > 254 ||
-    !allowedContactMethods.includes(contactMethod) ||
     !allowedProvinces.includes(province) ||
-    note.length > 1000
+    bestTime.length > 200
   ) {
     return jsonResponse('Please check your details and try again.', 400);
   }
@@ -74,15 +67,12 @@ export const POST: APIRoute = async ({ request }) => {
     result = await resend.emails.send({
       from: sender,
       to: [site.email],
-      replyTo: email,
       subject: `Call-back request from ${name}`,
       text: [
         `Name: ${name}`,
         `Phone: ${phone}`,
-        `Email: ${email}`,
-        `Preferred contact method: ${contactMethod}`,
         `Province: ${province}`,
-        `Preferred times or question: ${note || 'Not provided'}`,
+        `Best time to call: ${bestTime || 'Not provided'}`,
       ].join('\n'),
     });
   } catch (error) {

@@ -50,6 +50,9 @@ variables for local development and in the Vercel project settings:
 - `RESEND_FROM_EMAIL`: a sender address verified with Resend, such as `Joyful Minds Counselling <hello@your-domain.ca>`.
 
 Copy `.env.example` to `.env` for local development. The recipient address is configured in `src/data/site.ts`.
+The form requires a name, phone number, and province (Alberta or Ontario), with an optional best time to call
+(up to 200 characters, including the visitor's time zone). It does not collect an email address, contact preference,
+or general question; notification emails have no visitor reply-to address.
 
 ## 👀 Want to learn more?
 

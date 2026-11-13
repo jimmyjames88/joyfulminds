@@ -1,5 +1,5 @@
 ---
-import { consultHref, mailto, site } from '../data/site';
+import { mailto, site } from '../data/site';
 import Card from '../components/ui/Card.astro';
 import Container from '../components/ui/Container.astro';
 import Icon from '../components/ui/Icon.astro';
@@ -28,8 +28,8 @@ const description =
       <ul class="mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-3">
         <li>
           <Card class="flex h-full flex-col">
-            <span class="grid size-10 place-items-center rounded-xl bg-sage-tint text-terracotta">
-              <Icon name="mail" class="size-5" />
+            <span class="grid size-10 place-items-center rounded-xl text-terracotta">
+              <Icon name="mail" class="size-6" />
             </span>
             <p class="mt-5 text-[0.6875rem] font-semibold tracking-[0.1em] text-muted uppercase">Email</p>
             <a href={mailto()} class="mt-1 inline-block break-all font-semibold text-ink hover:text-terracotta">
@@ -46,8 +46,8 @@ const description =
         </li>
         <li>
           <Card class="flex h-full flex-col">
-            <span class="grid size-10 place-items-center rounded-xl bg-peach-tint text-peach">
-              <Icon name="phone" class="size-5" />
+            <span class="grid size-10 place-items-center rounded-xl text-peach">
+              <Icon name="phone" class="size-6" />
             </span>
             <p class="mt-5 text-[0.6875rem] font-semibold tracking-[0.1em] text-muted uppercase">Phone</p>
             <a href={site.phoneHref} class="mt-1 inline-block font-semibold text-ink hover:text-terracotta">
@@ -64,8 +64,8 @@ const description =
         </li>
         <li>
           <Card class="flex h-full flex-col">
-            <span class="grid size-10 place-items-center rounded-xl bg-sage-tint text-terracotta">
-              <Icon name="video" class="size-5" />
+            <span class="grid size-10 place-items-center rounded-xl text-terracotta">
+              <Icon name="video" class="size-6" />
             </span>
             <p class="mt-5 text-[0.6875rem] font-semibold tracking-[0.1em] text-muted uppercase">Virtual Counselling</p>
             <p class="mt-1 font-semibold text-ink">Alberta &amp; Ontario</p>
@@ -138,40 +138,20 @@ const description =
             </div>
           </div>
 
-          <div>
-            <label for="callback-email" class="text-sm font-semibold text-ink">Email address <span class="text-peach">*</span></label>
-            <input
-              id="callback-email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              maxlength="254"
-              required
-              class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
-              placeholder="you@example.com"
-            />
-          </div>
-
           <div class="grid gap-5 sm:grid-cols-2">
-            <fieldset>
-              <legend class="text-sm font-semibold text-ink">Preferred contact method <span class="text-peach">*</span></legend>
-              <div class="mt-2 grid grid-cols-2 gap-2">
-                <label class="cursor-pointer">
-                  <input class="peer sr-only" type="radio" name="contact-method" value="Phone call" required checked />
-                  <span class="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line bg-canvas px-3 py-2 text-sm text-muted transition peer-checked:border-terracotta peer-checked:bg-terracotta-tint peer-checked:text-ink peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-terracotta">
-                    <Icon name="phone" class="size-4" />
-                    Phone call
-                  </span>
-                </label>
-                <label class="cursor-pointer">
-                  <input class="peer sr-only" type="radio" name="contact-method" value="Email" />
-                  <span class="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line bg-canvas px-3 py-2 text-sm text-muted transition peer-checked:border-terracotta peer-checked:bg-terracotta-tint peer-checked:text-ink peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-terracotta">
-                    <Icon name="mail" class="size-4" />
-                    Email
-                  </span>
-                </label>
-              </div>
-            </fieldset>
+            <div>
+              <label for="callback-best-time" class="text-sm font-semibold text-ink">
+                Best time to call <span class="font-normal text-muted">(optional)</span>
+              </label>
+              <input
+                id="callback-best-time"
+                name="best-time"
+                type="text"
+                maxlength="200"
+                class="mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+                placeholder="e.g. Weekdays after 3 pm Mountain Time"
+              />
+            </div>
 
             <fieldset>
               <legend class="text-sm font-semibold text-ink">Province of residence <span class="text-peach">*</span></legend>
@@ -194,23 +174,10 @@ const description =
             </fieldset>
           </div>
 
-          <div>
-            <label for="callback-note" class="text-sm font-semibold text-ink">
-              Preferred times or a brief question <span class="font-normal text-muted">(optional)</span>
-            </label>
-            <textarea
-              id="callback-note"
-              name="note"
-              rows="4"
-              maxlength="1000"
-              class="mt-2 w-full resize-y rounded-xl border border-line bg-canvas px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-muted/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
-              placeholder="Share a good time to reach you or ask a general question. Please do not include private health information."
-            ></textarea>
-            <p class="mt-2 text-xs leading-relaxed text-muted">
-              This sends your request directly to Rhonda. Please keep your message to scheduling details and do not
-              include private health information.
-            </p>
-          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            This sends your request directly to Rhonda. Please include only scheduling details, including your time zone,
+            and do not include private health information.
+          </p>
 
           <div class="text-center">
             <button
@@ -227,7 +194,7 @@ const description =
 
       <p class="mt-6 text-center text-sm text-muted">
         Prefer to arrange a complimentary conversation by email?&nbsp;
-        <a href={consultHref} class="font-semibold text-terracotta underline decoration-terracotta/40 underline-offset-4 hover:decoration-terracotta">
+        <a href="#" class="font-semibold text-terracotta underline decoration-terracotta/40 underline-offset-4 hover:decoration-terracotta">
           Email Rhonda
         </a>
       </p>
@@ -296,8 +263,8 @@ const description =
     aria-labelledby="contact-emergency-title"
     class="mx-auto my-12 flex max-w-3xl gap-4 rounded-2xl border border-peach/40 bg-peach-tint p-5 shadow-card sm:my-16 sm:p-6"
   >
-    <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-peach/15 text-peach">
-      <Icon name="alert" class="size-5" />
+    <span class="grid size-10 shrink-0 place-items-center rounded-xl text-peach">
+      <Icon name="alert" class="size-6" />
     </span>
     <div>
       <h2 id="contact-emergency-title" class="font-sans text-base font-semibold text-ink">If you need immediate help</h2>
