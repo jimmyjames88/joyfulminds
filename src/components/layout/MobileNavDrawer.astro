@@ -79,11 +79,15 @@ const getNavHref = (href: string) => {
     </ul>
   </nav>
 
-  <span class="mt-auto block pt-6 sm:hidden">
-    <Button href={site.bookingHref} target="_blank" variant="forest" size="sm" block icon="arrow-up-right">
+  <div class="mt-auto flex flex-col gap-3 pt-6">
+
+    <Button href={site.phoneHref} variant="outline" block icon="phone" class="min-h-11">
+      Call {site.phone}
+    </Button>
+        <Button href={site.bookingHref} target="_blank" variant="forest" block icon="arrow-up-right" class="sm:hidden">
       Book Appointment
     </Button>
-  </span>
+  </div>
 </aside>
 
 <style is:global>
