@@ -59,10 +59,10 @@ or general question; notification emails have no visitor reply-to address.
 The canonical origin is `https://www.joyfulminds.ca`. Content URLs have no trailing slash except `/`;
 Astro and Vercel share this policy. Keep Vercel's existing non-www-to-www domain redirect enabled.
 
-`npm run build` generates `/sitemap-index.xml` and `/sitemap-0.xml` using `@astrojs/sitemap`.
+`npm run build` generates a single static `/sitemap.xml` using `src/pages/sitemap.xml.ts`.
 The sitemap includes Home, About, Contact, the four counselling services and Team Workshops.
 The legacy couples redirect, APIs and other noncanonical routes are excluded. `public/robots.txt`
-advertises the sitemap index. No separate `/sitemap.xml` is necessary.
+and the shared layout advertise `/sitemap.xml`. No sitemap index or numbered sitemap files are generated.
 
 After building, run `npm run test:seo` to check the generated sitemap, canonical/social metadata,
 structured-data relationships, breadcrumbs and page-specific service boundaries. Tests use Node's
@@ -95,14 +95,14 @@ it was denied; browser throttling was restored after measurement.
 
 ### Owner-operated launch checks
 
-1. Deploy and confirm that all eight canonical pages, robots.txt and both sitemap files return 200.
+1. Deploy and confirm that all eight canonical pages, robots.txt and sitemap.xml return 200.
    Check non-www, HTTP and trailing-slash redirects on production, including query-string preservation.
 2. Keep preview deployments protected or noindex through Vercel's deployment settings; never apply
    preview indexing restrictions to the production domain.
 3. Check Organization and Breadcrumb markup with Google's Rich Results Test and the complete graph
    with Schema.org Validator. Valid Service/Person markup does not guarantee a Google rich result.
 4. Create a Google Search Console **Domain property** for `joyfulminds.ca` and verify it using DNS.
-5. Submit `https://www.joyfulminds.ca/sitemap-index.xml`. Inspect the eight canonical URLs and compare
+5. Submit `https://www.joyfulminds.ca/sitemap.xml`. Inspect the eight canonical URLs and compare
    declared and Google-selected canonicals when data becomes available.
 6. Monitor page indexing and query/page impressions, clicks and CTR as data accumulates. Province
    wording in a query indicates intent, not the visitor's verified location.

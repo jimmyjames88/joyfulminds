@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
@@ -47,15 +47,16 @@ test('JSON-LD serialization cannot close its HTML script element', () => {
   assert.deepEqual(JSON.parse(serialized), value);
 });
 
-test('build emits exactly the canonical content inventory and advertises the sitemap', async () => {
-  const sitemap = await readFile(path.join(root, 'sitemap-0.xml'), 'utf8');
+test('build emits one flat sitemap with the canonical content inventory and discovery links', async () => {
+  const files = (await readdir(root)).filter((name) => /^sitemap.*\.xml$/.test(name));
+  assert.deepEqual(files, ['sitemap.xml']);
+  const sitemap = await readFile(path.join(root, 'sitemap.xml'), 'utf8');
+  assert.ok(sitemap.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'));
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(([, url]) => url);
   assert.deepEqual(urls.sort(), routes.map((route) => origin + route).sort());
-  const index = await readFile(path.join(root, 'sitemap-index.xml'), 'utf8');
-  assert.ok(index.includes(`<loc>${origin}/sitemap-0.xml</loc>`));
   const robots = await readFile(path.join(root, 'robots.txt'), 'utf8');
   assert.match(robots, /User-agent: \*\s+Allow: \//);
-  assert.ok(robots.includes(`Sitemap: ${origin}/sitemap-index.xml`));
+  assert.ok(robots.includes(`Sitemap: ${origin}/sitemap.xml`));
 });
 
 test('Vercel output normalizes slash variants and preserves the legacy redirect', async () => {
@@ -84,7 +85,7 @@ test('all generated pages have consistent metadata, connected schema and truthfu
     assert.equal(meta(html, 'og:url'), url);
     assert.equal([...html.matchAll(/<h1\b/g)].length, 1, route);
     assert.doesNotMatch(html, /<meta name="robots" content="[^"]*noindex/);
-    assert.ok(html.includes('href="/sitemap-index.xml"'));
+    assert.ok(html.includes('href="/sitemap.xml"'));
     const title = decode(html.match(/<title>(.*?)<\/title>/s)[1]);
     const description = meta(html, 'description');
     assert.ok(!titles.has(title), `Duplicate title at ${route}`);

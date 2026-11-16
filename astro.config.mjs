@@ -2,27 +2,12 @@
 import { defineConfig, fontProviders } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
-import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
-import { services } from './src/data/services';
-
-const indexablePaths = new Set([
-  '/',
-  '/about',
-  '/contact',
-  ...services.map(({ slug }) => `/services/${slug}`),
-  '/services/team-workshops',
-]);
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.joyfulminds.ca',
   trailingSlash: 'never',
-  integrations: [
-    sitemap({
-      filter: (page) => indexablePaths.has(new URL(page).pathname.replace(/\/$/, '') || '/'),
-    }),
-  ],
   redirects: {
     '/services/couples-therapy': '/services/womens-counselling',
   },
