@@ -4,7 +4,6 @@ import { ClientRouter, fade } from 'astro:transitions';
 import meadow from '../assets/hero-sunflower-meadow.png';
 import logo from '../assets/joyful-minds-logo-square.png';
 import portrait from '../assets/rhonda-about-portrait.png';
-import Breadcrumbs from '../components/layout/Breadcrumbs.astro';
 import MobileNavDrawer from '../components/layout/MobileNavDrawer.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
 import SiteHeader from '../components/layout/SiteHeader.astro';
@@ -121,7 +120,6 @@ const schema = createPageSchema({
     <div data-page-shell>
       <SiteHeader />
       <main id="main" tabindex="-1" class="focus:outline-none" transition:name="page-content" transition:animate={fade({ duration: '600ms' })}>
-        {breadcrumbLabel && <Breadcrumbs current={breadcrumbLabel} />}
         <slot />
       </main>
       <SiteFooter />

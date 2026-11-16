@@ -25,11 +25,12 @@ const {
     <p class="mx-auto mt-6 max-w-xl text-base leading-[1.65] text-white/75">
       {description}
     </p>
-    {Astro.slots.has('actions') ? (
-      <div class="mt-10"><slot name="actions" /></div>
-    ) : (
-      <Button href={site.consultHref} target="_blank" size="lg" icon="calendar" class="mt-10">Complimentary Consult (30 Minutes)</Button>
-    )}
+    <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
+      <slot name="actions">
+        <Button href={site.consultHref} target="_blank" size="lg" icon="calendar">Complimentary Consult (30 Minutes)</Button>
+        <Button href="/about" variant="outline" size="lg">Learn About Rhonda</Button>
+      </slot>
+    </div>
   </Container>
 </section>
 

@@ -43,7 +43,7 @@ Use DESIGN.md as the visual foundation of this project.
 ```
 - Solid buttons use lavender at rest and darken on hover.
 - The `terracotta` Button variant uses the theme's light terracotta accent with dark text and a lighter hover tint; it is used for the workshop facilitator's More About Rhonda action.
-- `ClosingCta` shares the deep-background closing banner across pages, with optional `title` and `description` props and an `actions` slot for page-specific contact options. Existing counselling defaults remain unchanged. Team Workshops uses this banner for its unique team inquiry content.
+- `ClosingCta` shares the deep-background closing banner across pages, with optional `title` and `description` props and an `actions` slot for page-specific contact options. Its default actions include the consultation button and a secondary "Learn About Rhonda" button linking to `/about`, with responsive wrapping. Custom actions replace both defaults; Team Workshops shows only its email and phone actions.
 - `Button` renders a link with a required `href` by default; use `as="button"` for native actions (defaulting to `type="button"`). Both share the same variants and sizes.
 - Button labels retain their written capitalization; do not apply all-caps styling.
 - Use the white logo in the dark header and footer. Retain the solid plum and original artwork assets for light-background use. Recoloured variants preserve the original artwork's dimensions and alpha.

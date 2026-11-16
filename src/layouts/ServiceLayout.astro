@@ -80,21 +80,17 @@ const selectedFocusAreas = focusAreas.filter((area) => service.focusAreaTitles.i
         ))}
       </ul>
       <hr class="my-12 border-t border-line" />
-      <div class="mt-12 flex flex-col items-center gap-4 text-center">
+      <div class="mt-12 m flex flex-col items-center gap-4 text-center">
         <p class="max-w-xl text-sm leading-relaxed text-muted">
           A complimentary 30-minute conversation is a no-obligation way to ask questions and see whether the service
           feels like a good fit.
         </p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <Button href={mailto(`${service.label} inquiry`)} icon="arrow-up-right">
-            Ask About a Free Consultation
+        <div class="flex flex-wrap justify-center gap-3 mt-4">
+          <Button href={site.consultHref} icon="arrow-up-right">
+            Book a Free Consultation
           </Button>
           <Button href="/contact" variant="outline">Contact Rhonda</Button>
         </div>
-        <p class="text-sm leading-relaxed text-muted">
-          Learn about <a href="/about" class="underline underline-offset-4 hover:text-terracotta">Rhonda's background and approach</a>
-          {' '}or review <a href="/#booking" class="underline underline-offset-4 hover:text-terracotta">counselling fees and consultation options</a>.
-        </p>
       </div>
     </Container>
   </section>
