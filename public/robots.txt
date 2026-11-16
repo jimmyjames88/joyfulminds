@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.joyfulminds.ca/sitemap-index.xml

@@ -3,6 +3,9 @@ import type { FocusAreaTitle } from './focusAreas';
 export interface ServiceContent {
   slug: string;
   label: string;
+  heading: string;
+  seoTitle: string;
+  seoDescription: string;
   introduction: string;
   approachTitle: string;
   approach: string;
@@ -26,8 +29,12 @@ export const services: ServiceContent[] = [
   {
     slug: 'individual-counselling',
     label: 'Individual Counselling',
+    heading: 'Online Individual Counselling',
+    seoTitle: 'Online Individual Counselling AB & ON | Joyful Minds',
+    seoDescription:
+      'Online individual counselling for adults in Alberta and Ontario. Explore support with anxiety, stress, grief and life changes with Rhonda Hilker.',
     introduction:
-      'Individual counselling offers a dedicated space to make sense of what you are carrying, understand patterns, and reconnect with your own strengths. You do not need a clear goal or the right words before beginning.',
+      'Online individual counselling for adults in Alberta and Ontario offers a dedicated space to make sense of what you are carrying, understand patterns, and reconnect with your own strengths. You do not need a clear goal or the right words before beginning.',
     approachTitle: 'Support shaped around you',
     approach:
       'Counselling is collaborative and grounded in your experiences and priorities. Sessions can make room for both the immediate challenges you are facing and the broader context of your life.',
@@ -85,8 +92,12 @@ export const services: ServiceContent[] = [
   {
     slug: 'womens-counselling',
     label: "Women's Counselling",
+    heading: "Online Women's Counselling",
+    seoTitle: "Online Women's Counselling AB & ON | Joyful Minds",
+    seoDescription:
+      "Online women's counselling in Alberta and Ontario with Rhonda Hilker. Explore support through menopause, caregiving, relationships and life changes.",
     introduction:
-      'Women\'s counselling offers a space to explore the experiences, changes, and expectations shaping your life. From reproductive and hormonal transitions to relationships, caregiving, and daily responsibilities, you can begin with what feels most important to you right now.',
+      'Online women\'s counselling in Alberta and Ontario offers a space to explore the experiences, changes, and expectations shaping your life. From reproductive and hormonal transitions to relationships, caregiving, and daily responsibilities, you can begin with what feels most important to you right now.',
     approachTitle: 'Support that makes room for you',
     approach:
       'The work begins with listening to your experiences and understanding what you hope will change. Together, we can explore what you are carrying, make sense of patterns, and consider meaningful next steps at a pace that feels manageable.',
@@ -145,8 +156,12 @@ export const services: ServiceContent[] = [
   {
     slug: 'teen-counselling',
     label: 'Teen Counselling',
+    heading: 'Online Teen Counselling',
+    seoTitle: 'Online Teen Counselling Alberta & Ontario | Joyful Minds',
+    seoDescription:
+      "Online teen counselling in Alberta and Ontario with Rhonda Hilker. Support with stress, school, relationships and change, guided by a teen's goals.",
     introduction:
-      'Adolescence can bring changes in relationships, identity, responsibilities, and expectations. Therapy can offer teens a place to talk through what is happening and consider what support would feel useful.',
+      'Online teen counselling in Alberta and Ontario offers a place to explore changes in relationships, identity, responsibilities, and expectations. Together, we can talk through what is happening and consider what support would feel useful.',
     approachTitle: 'Making space for a teen\'s perspective',
     approach:
       'Counselling starts with listening to the young person and understanding their goals. Questions about family involvement and privacy can be discussed together before deciding how to proceed.',
@@ -203,8 +218,12 @@ export const services: ServiceContent[] = [
   {
     slug: 'senior-counselling',
     label: 'Senior Counselling',
+    heading: 'Online Counselling for Seniors',
+    seoTitle: 'Online Senior Counselling AB & ON | Joyful Minds',
+    seoDescription:
+      'Online counselling for seniors in Alberta and Ontario. Explore grief, retirement, changing health and relationships with Rhonda Hilker, MSW, RSW.',
     introduction:
-      'Senior counselling offers space to explore the changes and questions that can arise in later life. From grief and changing health to relationships and daily routines, support begins with your experience and what matters to you.',
+      'Online counselling for seniors in Alberta and Ontario offers space to explore the changes and questions that can arise in later life. From grief and changing health to relationships and daily routines, support begins with your experience and what matters to you.',
     approachTitle: 'Your priorities, your pace',
     approach:
       'Counselling recognizes the strengths, experience, and perspective you bring. Together, we can make room for what feels difficult, explore practical supports, and consider next steps that reflect your needs and priorities.',

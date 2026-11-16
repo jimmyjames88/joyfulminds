@@ -18,11 +18,14 @@ interface Props {
 
 const { service } = Astro.props;
 const selectedFocusAreas = focusAreas.filter((area) => service.focusAreaTitles.includes(area.title));
-const pageTitle = `${service.label} | Joyful Minds Counselling`;
-const description = service.introduction;
 ---
 
-<Layout title={pageTitle} description={description}>
+<Layout
+  title={service.seoTitle}
+  description={service.seoDescription}
+  breadcrumbLabel={service.label}
+  service={{ name: service.label, description: service.introduction, isCounselling: true }}
+>
   <section
     aria-labelledby="service-title"
     class="relative isolate overflow-hidden bg-canvas py-16 sm:py-20 lg:py-24"
@@ -39,7 +42,7 @@ const description = service.introduction;
       <SectionHeading
         id="service-title"
         eyebrow="Counselling Services"
-        title={service.label}
+        title={service.heading}
         headingLevel="h1"
         align="center"
         titleClass="mt-3 text-4xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
@@ -84,10 +87,14 @@ const description = service.introduction;
         </p>
         <div class="flex flex-wrap justify-center gap-3">
           <Button href={mailto(`${service.label} inquiry`)} icon="arrow-up-right">
-            Book Free Consult
+            Ask About a Free Consultation
           </Button>
           <Button href="/contact" variant="outline">Contact Rhonda</Button>
         </div>
+        <p class="text-sm leading-relaxed text-muted">
+          Learn about <a href="/about" class="underline underline-offset-4 hover:text-terracotta">Rhonda's background and approach</a>
+          {' '}or review <a href="/#booking" class="underline underline-offset-4 hover:text-terracotta">counselling fees and consultation options</a>.
+        </p>
       </div>
     </Container>
   </section>

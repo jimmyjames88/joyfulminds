@@ -12,9 +12,9 @@ import SectionHeading from '../../components/ui/SectionHeading.astro';
 import { mailto, site } from '../../data/site';
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Team Workshops | Joyful Minds Counselling';
+const title = 'Workplace Mental Health Workshops | Joyful Minds';
 const description =
-  'Mental health workshops built around the needs of your team at competitive rates. Explore communication, stress, work-life balance, and well-being with Rhonda Hilker.';
+  'Mental health workshops tailored to your team with Rhonda Hilker, MSW, RSW. Explore stress, communication, work-life balance and workplace grief.';
 const inquiryHref = mailto('Team workshop inquiry');
 
 const topics: { title: string; icon: IconName; description: string; takeaway: string }[] = [
@@ -127,14 +127,19 @@ const questions = [
 ];
 ---
 
-<Layout title={title} description={description}>
+<Layout
+  title={title}
+  description={description}
+  breadcrumbLabel="Team Workshops"
+  service={{ name: 'Workplace Mental Health & Team Workshops', description, isCounselling: false }}
+>
   <section aria-labelledby="workshops-title" class="relative isolate overflow-hidden bg-canvas py-16 sm:py-20 lg:py-24">
     <AnimatedHeroBackground effect="ripples" />
     <Container width="content" class="relative z-10">
       <SectionHeading
         id="workshops-title"
         eyebrow="Businesses & Organizations"
-        title="Team Workshops"
+        title="Workplace Mental Health & Team Workshops"
         headingLevel="h1"
         align="center"
         titleClass="mt-3 text-4xl leading-[1.15] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
