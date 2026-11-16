@@ -99,10 +99,15 @@ const linkClass = 'rounded-sm text-sm text-white/65 transition-colors hover:text
   </Container>
 
   <Container>
-    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 py-6 text-xs text-white/60">
-      <p>&copy; {year} {site.name}. All rights reserved.</p>
-      <a href="/privacy-policy" class="rounded-sm transition-colors hover:text-white">
-        Privacy Policy
+    <div class="grid items-center gap-x-6 gap-y-3 border-t border-white/10 py-6 text-xs text-white/60 lg:grid-cols-[1fr_auto]">
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <p>&copy; {year} {site.name}. All rights reserved.</p>
+        <a href="/privacy-policy" class="rounded-sm transition-colors hover:text-white">
+          Privacy Policy
+        </a>
+      </div>
+      <a href="https://james-allen.ca" class="justify-self-end rounded-sm text-white/25 text-[0.625rem] transition-colors hover:text-white/80">
+        Website by James Allen
       </a>
     </div>
   </Container>
