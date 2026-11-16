@@ -15,7 +15,7 @@ import Layout from '../../layouts/Layout.astro';
 const title = 'Team Workshops | Joyful Minds Counselling';
 const description =
   'Mental health workshops built around the needs of your team at competitive rates. Explore communication, stress, work-life balance, and well-being with Rhonda Hilker.';
-const enquiryHref = mailto('Team workshop enquiry');
+const inquiryHref = mailto('Team workshop inquiry');
 
 const topics: { title: string; icon: IconName; description: string; takeaway: string }[] = [
   {
@@ -118,7 +118,7 @@ const questions = [
   },
   {
     title: 'Do participants need to share personal experiences?',
-    answer: 'A workplace learning session is not group therapy. Personal health information is not needed to make an initial enquiry. Expectations for discussion and participation can be agreed upon when planning the workshop.',
+    answer: 'A workplace learning session is not group therapy. Personal health information is not needed to make an initial inquiry. Expectations for discussion and participation can be agreed upon when planning the workshop.',
   },
   {
     title: 'Can our company use a professional development or benefits budget?',
@@ -149,7 +149,7 @@ const questions = [
       </SectionHeading>
 
       <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button href={enquiryHref} icon="mail" size="lg" class="w-full sm:w-auto">Inquire About Team Workshops</Button>
+        <Button href={inquiryHref} icon="mail" size="lg" class="w-full sm:w-auto">Inquire About Team Workshops</Button>
         <Button href={site.phoneHref} variant="outline" icon="phone" size="lg" class="w-full sm:w-auto">
           Call {site.phone}
         </Button>
@@ -249,10 +249,15 @@ const questions = [
   <section aria-labelledby="facilitator-title" class="bg-tint py-16 sm:py-20 lg:py-24">
     <Container>
       <div class="grid items-center gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
-        <PhotoFrame src={portrait} alt="Rhonda Hilker smiling while seated at a café" captionStyle="card">
+        <PhotoFrame
+          src={portrait}
+          alt="Rhonda Hilker smiling while seated at a café"
+        >
           <div slot="caption">
-            <span class="block font-serif text-2xl font-semibold">{site.practitioner}</span>
-            <span class="mt-1 block text-xs text-muted">{site.credentials} &middot; Registered Social Worker</span>
+            <span class="block font-serif text-2xl leading-tight font-semibold text-white">{site.practitioner}</span>
+            <span class="mt-1 block text-[0.625rem] font-medium tracking-[0.14em] text-white/80 uppercase">
+              {site.credentials} &middot; 26+ Years Experience
+            </span>
           </div>
         </PhotoFrame>
         <div>
@@ -274,7 +279,7 @@ const questions = [
               <li><Badge tone="outline" icon="badge-check">{licence.body} {licence.number}</Badge></li>
             ))}
           </ul>
-          <Button href="/about" variant="terracotta" size="sm" class="mt-8" icon="arrow-up-right">More About Rhonda</Button>
+          <Button href="/about" variant="terracotta" class="mt-8" icon="arrow-up-right">More About Rhonda</Button>
         </div>
       </div>
     </Container>
@@ -303,12 +308,9 @@ const questions = [
   >
     <div slot="actions">
       <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button href={enquiryHref} size="lg" icon="mail">Email Rhonda</Button>
+        <Button href={inquiryHref} size="lg" icon="mail">rhonda@joyfulminds.ca</Button>
         <Button href={site.phoneHref} variant="outline" size="lg" icon="phone">{site.phone}</Button>
       </div>
-      <a href={`mailto:${site.email}`} class="mt-5 inline-block rounded-sm text-sm text-terracotta underline underline-offset-4">
-        {site.email}
-      </a>
     </div>
   </ClosingCta>
 </Layout>

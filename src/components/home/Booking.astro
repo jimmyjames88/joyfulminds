@@ -14,7 +14,7 @@ const tiers: PricingTier[] = [
     price: '$0',
     duration: '30 Minutes',
     features: ['No obligation or pressure', 'Discuss what brings you in', 'Review schedule availability'],
-    cta: { label: 'Book Free Consult', href: '#' },
+    cta: { label: 'Book Free Consult', href: site.consultHref },
   },
   {
     label: 'New Clients',
@@ -24,7 +24,7 @@ const tiers: PricingTier[] = [
     price: '$225',
     duration: '1.5 Hours',
     features: ['Extended duration for depth', 'Comprehensive history exploration', 'Insurance receipt provided'],
-    cta: { label: 'Book Initial Session', href: '#' },
+    cta: { label: 'Book Initial Session', href: site.initialHref },
   },
   {
     label: 'Returning Clients',
@@ -34,7 +34,7 @@ const tiers: PricingTier[] = [
     price: '$225',
     duration: '1 Hour',
     features: ['Ongoing weekly / bi-weekly care', 'Somatic regulation practice', 'Direct insurance documentation'],
-    cta: { label: 'Book Returning Session', href: '#' },
+    cta: { label: 'Book Returning Session', href: site.returningHref },
   },
 ];
 ---
@@ -61,13 +61,11 @@ const tiers: PricingTier[] = [
       aria-label="Direct contact"
     >
       <li>
-        Direct telephone:
-        <a href={site.phoneHref} class="rounded-sm font-medium text-ink hover:text-terracotta">{site.phone}</a>
+        Direct telephone: <a href={site.phoneHref} class="rounded-sm font-medium text-ink hover:text-terracotta">{site.phone}</a>
       </li>
       <li class="hidden size-1 rounded-full bg-muted sm:block" aria-hidden="true"></li>
       <li>
-        Email:
-        <a href={mailto()} class="rounded-sm font-medium text-ink hover:text-terracotta">{site.email}</a>
+        Email: <a href={mailto()} class="rounded-sm font-medium text-ink hover:text-terracotta">{site.email}</a>
       </li>
     </ul>
     <p class="mt-6 text-center text-xs leading-relaxed text-muted italic">

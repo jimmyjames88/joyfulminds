@@ -86,7 +86,7 @@ export const services: ServiceContent[] = [
     slug: 'womens-counselling',
     label: "Women's Counselling",
     introduction:
-      'Women’s counselling offers a space to explore the experiences, changes, and expectations shaping your life. From reproductive and hormonal transitions to relationships, caregiving, and daily responsibilities, you can begin with what feels most important to you right now.',
+      'Women\'s counselling offers a space to explore the experiences, changes, and expectations shaping your life. From reproductive and hormonal transitions to relationships, caregiving, and daily responsibilities, you can begin with what feels most important to you right now.',
     approachTitle: 'Support that makes room for you',
     approach:
       'The work begins with listening to your experiences and understanding what you hope will change. Together, we can explore what you are carrying, make sense of patterns, and consider meaningful next steps at a pace that feels manageable.',
@@ -106,13 +106,15 @@ export const services: ServiceContent[] = [
     homepage: {
       audience: "Women's health & transitions",
       description:
-        'Space for the experiences, changes, and expectations shaping your life. From pregnancy and hormonal transitions to relationships, caregiving, and daily responsibilities, we can make room for your needs at a pace that feels manageable.',
-      topics: ['Pregnancy & menstruation', 'Menopause transitions', 'Caregiving', 'Identity & relationships'],
+        `Individual counselling with a key understanding that our
+        hormone cycles can play a part in symptoms and capacities for changes throughout the life
+        course, unique only to women.`,
+      topics: ['Identity & relationships', 'Caregiving', 'Menstruation, Pregnancy, Menopause'],
       approach: 'Room for your experience',
     },
     questionSections: [
       {
-        title: 'When might I consider women’s counselling?',
+        title: 'When might I consider women\'s counselling?',
         answer:
           'You do not need to wait until things feel unmanageable. Counselling may be worth considering when you feel overwhelmed, are navigating a transition, or would value space to understand your needs. A complimentary conversation is a low-pressure way to ask questions and explore whether the service feels like a fit.',
       },
@@ -132,7 +134,7 @@ export const services: ServiceContent[] = [
           'Rhonda offers a collaborative space to talk about your experiences without needing to have everything figured out. Together, you can explore the connections between your circumstances, emotions, and stress responses, clarify your needs, and identify practical next steps that reflect what matters to you.',
       },
       {
-        title: 'What might I get out of women’s counselling?',
+        title: 'What might I get out of women\'s counselling?',
         answer:
           'The experience is different for everyone. You may gain a clearer understanding of your needs, explore boundaries, and build ways to meet daily life with more steadiness. Counselling can also offer space to consider changes and next steps with greater clarity.',
         note:
@@ -145,7 +147,7 @@ export const services: ServiceContent[] = [
     label: 'Teen Counselling',
     introduction:
       'Adolescence can bring changes in relationships, identity, responsibilities, and expectations. Therapy can offer teens a place to talk through what is happening and consider what support would feel useful.',
-    approachTitle: 'Making space for a teen’s perspective',
+    approachTitle: 'Making space for a teen\'s perspective',
     approach:
       'Counselling starts with listening to the young person and understanding their goals. Questions about family involvement and privacy can be discussed together before deciding how to proceed.',
     topics: [
@@ -166,7 +168,7 @@ export const services: ServiceContent[] = [
       description:
         'A place for teens to talk through changes in relationships, identity, responsibilities, and expectations. Counselling begins with listening to the young person and understanding their goals, with space to discuss privacy and family involvement.',
       topics: ['School & peer relationships', 'Anxiety & stress', 'Identity', 'Family changes'],
-      approach: 'A young person’s perspective',
+      approach: 'A young person\'s perspective',
     },
     questionSections: [
       {
@@ -177,7 +179,7 @@ export const services: ServiceContent[] = [
       {
         title: 'What might bring a teen to counselling?',
         answer:
-          'Adolescence can bring several changes at once. Counselling makes room for the young person’s perspective rather than assuming what the concern or goal should be.',
+          'Adolescence can bring several changes at once. Counselling makes room for the young person\'s perspective rather than assuming what the concern or goal should be.',
         points: [
           'School, friendships, or family relationships are feeling stressful.',
           'Worry or emotional overwhelm is making daily routines harder.',
@@ -194,7 +196,7 @@ export const services: ServiceContent[] = [
         answer:
           'The experience is different for each young person. Counselling may offer a clearer understanding of emotions and needs, ways to manage stress, and practice communicating concerns or asking for support.',
         note:
-          'Therapy cannot promise a particular outcome. Goals and next steps are explored collaboratively with attention to the young person’s needs and readiness.',
+          'Therapy cannot promise a particular outcome. Goals and next steps are explored collaboratively with attention to the young person\'s needs and readiness.',
       },
     ],
   },

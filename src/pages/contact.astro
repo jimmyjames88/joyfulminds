@@ -72,7 +72,7 @@ const description =
             <p class="mt-2 text-sm leading-relaxed text-muted">{site.serviceArea}</p>
             <div class="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4">
               <span class="text-xs text-muted">Schedule Online</span>
-              <a href="#" class="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-terracotta hover:text-terracotta-hover">
+              <a href={site.bookingHref} target="_blank" class="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-terracotta hover:text-terracotta-hover">
                 Book on Jane App <Icon name="arrow-up-right" class="size-3.5" />
               </a>
             </div>
@@ -191,13 +191,6 @@ const description =
           <p id="callback-status" class="text-center text-sm text-muted" role="status" aria-live="polite"></p>
         </form>
       </Card>
-
-      <p class="mt-6 text-center text-sm text-muted">
-        Prefer to arrange a complimentary conversation by email?&nbsp;
-        <a href="#" class="font-semibold text-terracotta underline decoration-terracotta/40 underline-offset-4 hover:decoration-terracotta">
-          Email Rhonda
-        </a>
-      </p>
     </Container>
   </section>
 
@@ -271,7 +264,7 @@ const description =
       <p class="mt-2 text-sm leading-relaxed text-muted">
         This page is not monitored for emergencies. If you are in immediate danger or crisis, call
         &nbsp;<span class="font-semibold text-ink">911</span> or call/text Canada's
-        Suicide Crisis Helpline at <span class="font-semibold text-ink underline underline-offset-2">988</span>.
+        Suicide Crisis Helpline at <span class="font-semibold text-ink">988</span>.
       </p>
     </div>
   </section>

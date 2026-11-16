@@ -51,7 +51,7 @@ const featured = Boolean(tier.featured);
     }
   </ul>
 
-  <Button href={tier.cta.href} variant={featured ? 'forest' : 'sage'} size="md" block class="mt-auto">
+  <Button href={tier.cta.href} target="_blank" rel="noopener noreferrer" size="md" block class="mt-auto">
     {tier.cta.label}
   </Button>
 </li>

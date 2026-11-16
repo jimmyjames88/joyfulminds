@@ -14,6 +14,8 @@ export const site = {
   phoneHref: 'tel:+14033126532',
   bookingHref: 'https://joyfulmindscounselling.janeapp.com/',
   consultHref: 'https://joyfulmindscounselling.janeapp.com/#/staff_member/1/treatment/1',
+  initialHref: 'https://joyfulmindscounselling.janeapp.com/#/staff_member/1/treatment/2',
+  returningHref: 'https://joyfulmindscounselling.janeapp.com/#/staff_member/1/treatment/4',
   licences: [
     { province: 'Alberta', body: 'ACSW', number: '#20412' },
     { province: 'Ontario', body: 'OCSWSSW', number: '#859099' },

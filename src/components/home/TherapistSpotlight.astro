@@ -13,7 +13,7 @@ interface Props {
 const { portrait } = Astro.props;
 ---
 
-<section id="about" aria-labelledby="about-title" class="bg-tint py-20 lg:py-28">
+<section id="meet-rhonda" aria-labelledby="about-title" class="bg-tint py-20 lg:py-28">
   <Container class="grid items-center gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
     <PhotoFrame
       src={portrait}
@@ -23,7 +23,7 @@ const { portrait } = Astro.props;
       <div slot="caption">
         <span class="block font-serif text-2xl leading-tight font-semibold text-white">{site.practitioner}</span>
         <span class="mt-1 block text-[0.625rem] font-medium tracking-[0.14em] text-white/80 uppercase">
-          {site.credentials} • Social Worker
+          {site.credentials} • Registered Social Worker
         </span>
       </div>
     </PhotoFrame>
