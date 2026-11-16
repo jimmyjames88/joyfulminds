@@ -56,9 +56,20 @@ Use DESIGN.md as the visual foundation of this project.
 - Homepage section backgrounds alternate from Counselling Services (`bg-canvas`) through Areas of Focus (`bg-tint`) and Booking & Consultation (`bg-canvas`). The closing consultation call to action retains its deep background.
 
 ## Adding or Editing Counselling Services
-- Edit `src/data/services.ts` rather than duplicating page markup. Each `ServiceContent` record requires a unique URL-safe `slug`, `label`, `introduction`, `approachTitle`, `approach`, `topics`, `focusAreaTitles`, `homepage` summary, and `questionSections` (question title and answer, with optional points and note).
+- Edit `src/data/services.ts` rather than duplicating page markup. Each `ServiceContent` record requires a unique URL-safe `slug`, short navigation `label`, visible `heading`, explicit `seoTitle` and `seoDescription`, `introduction`, `approachTitle`, `approach`, `topics`, `focusAreaTitles`, `homepage` summary, and `questionSections` (question title and answer, with optional points and note).
 - Choose `focusAreaTitles` from the existing typed titles in `src/data/focusAreas.ts`; the shared layout supplies the matching icons. Keep the entries in the desired navigation/homepage order.
 - Adding a complete service record generates its static page, navigation links (desktop, mobile, footer), and homepage row automatically. Keep workshop content and booking destinations separate from the counselling template.
+
+## SEO
+- The canonical origin is `https://www.joyfulminds.ca`; content paths omit trailing slashes except `/`. Astro's `trailingSlash` setting and `vercel.json` agree. `Layout` normalizes canonical paths and removes query strings/fragments through `src/utils/seo.ts`.
+- `@astrojs/sitemap` generates the sitemap index and numbered sitemap on build. Its route filter includes only Home, About, Contact, the generated counselling services and Team Workshops. `public/robots.txt` advertises `/sitemap-index.xml`; keep its origin consistent with Astro's `site`.
+- `Layout` owns canonical/Open Graph/social-card metadata and one safely serialized JSON-LD graph per page. It uses an existing meadow asset for the default 1200x630 sharing image, not the transparent white logo. Custom `ogImage` paths may supply `ogImageAlt`, `ogImageWidth` and `ogImageHeight`.
+- Shared entity IDs are stable across navigation. `pageType`, `breadcrumbLabel` and `service` props select About/Contact types, visible matching breadcrumbs and page-specific Service data. There is no `/services` index, so breadcrumbs link Home directly to the current page.
+- `ServiceLayout` uses each counselling record's SEO fields, visible heading and introduction. It adds virtual delivery/provincial service data and contextual links to About and existing fees. Its email consultation action is labelled as an inquiry; the closing Jane consultation action is unchanged.
+- Team Workshops supplies a separate Service without inherited counselling geography, virtual delivery, session prices or benefits assumptions.
+- Person data uses only the existing visible name, credentials, registrations, academic background and portrait. Do not invent registry profile links, credentials, reviews, physical addresses, dates or offers. Official registration-link verification remains a launch task.
+- Visible FAQs are preserved without FAQPage markup for Google's retired rich-result feature. No analytics is introduced. Search Console setup is documented in README and requires owner access.
+- After significant SEO changes run `npm run astro -- check`, `npm run build`, then `npm run test:seo`. Recheck metadata and JSON-LD on direct loads and Astro client-side navigation. Confirm production redirects and crawl files after deployment.
 
 ## Collaboration
 - The developer retains creative control over page layouts.
