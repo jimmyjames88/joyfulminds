@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test:seo": "node --test tests/seo.test.mjs"
+    "test:seo": "node --test tests/seo.test.mjs",
+    "test:tag-manager": "node --test tests/tag-manager.test.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.4",

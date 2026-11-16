@@ -1,0 +1,190 @@
+---
+import Container from '../components/ui/Container.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { mailto, site } from '../data/site';
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Privacy Policy | Joyful Minds Counselling';
+const description =
+  'How Joyful Minds Counselling handles website enquiries, call-back requests, email delivery through Resend and planned Google Analytics use.';
+const policyLinkClass = 'rounded-sm text-terracotta underline underline-offset-4 hover:text-terracotta-hover';
+---
+
+<Layout title={title} description={description} breadcrumbLabel="Privacy Policy">
+  <section aria-labelledby="privacy-title" class="bg-canvas py-16 sm:py-20 lg:py-24">
+    <Container width="narrow">
+      <SectionHeading id="privacy-title" title="Privacy Policy" headingLevel="h1" eyebrow="Joyful Minds Counselling">
+        <p>Your privacy matters, especially when you are considering counselling.</p>
+      </SectionHeading>
+      <p class="mt-5 text-sm text-muted">Last updated: <time datetime="2026-11-16">November 16, 2026</time></p>
+
+      <div class="mt-10 space-y-10 text-base leading-relaxed text-ink">
+        <section aria-labelledby="privacy-scope" class="space-y-4">
+          <h2 id="privacy-scope" class="font-serif text-2xl font-medium text-forest sm:text-3xl">1. About this policy</h2>
+          <p>
+            This policy explains how {site.name}, operated by {site.practitioner}, handles personal information
+            collected through this website and related enquiries. It covers browsing, contacting Rhonda and requesting
+            a call-back.
+          </p>
+          <p>
+            This website is not a clinical record system. Consent to counselling, clinical confidentiality, recordkeeping
+            and the limits of confidentiality are addressed separately as part of arranging counselling. This policy does
+            not limit your rights under applicable privacy law.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-collection" class="space-y-4">
+          <h2 id="privacy-collection" class="font-serif text-2xl font-medium text-forest sm:text-3xl">2. Information you provide</h2>
+          <p>The request-a-call-back form collects:</p>
+          <ul class="list-disc space-y-2 pl-6">
+            <li>Your name and phone number.</li>
+            <li>Your province of residence, Alberta or Ontario.</li>
+            <li>Your preferred time to receive a call, if you choose to provide it.</li>
+          </ul>
+          <p>
+            The form does not ask for an email address or clinical information. Please include only scheduling details,
+            including your time zone, and do not enter diagnoses, symptoms, treatment history or other private health
+            information. If you contact Rhonda directly by email or phone, you choose what information to share; an email
+            also includes your email address and any message or attachments you send.
+          </p>
+          <p>
+            Website forms and ordinary email are not suitable for emergencies or confidential clinical discussions.
+            No internet or email service can guarantee complete security. If you prefer not to use the form or email,
+            you can call <a href={site.phoneHref} class={policyLinkClass}>{site.phone}</a>.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-use" class="space-y-4">
+          <h2 id="privacy-use" class="font-serif text-2xl font-medium text-forest sm:text-3xl">3. How information is used</h2>
+          <p>
+            Information you provide is used to respond to your enquiry, arrange a call or consultation, confirm the
+            province in which you are seeking services, and manage related communications. Technical information may
+            also be used to operate the website, investigate delivery problems and protect against misuse.
+          </p>
+          <p>
+            Submitting a request authorizes Rhonda to use its details to respond to you. It does not sign you up for
+            marketing or provide consent to optional analytics. We do not sell your personal information or use
+            website enquiries for targeted advertising.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-providers" class="space-y-4">
+          <h2 id="privacy-providers" class="font-serif text-2xl font-medium text-forest sm:text-3xl">4. Website and communication providers</h2>
+          <p>
+            <strong>Resend:</strong> The website uses Resend to deliver call-back requests to Rhonda by email.
+            Your submitted name, phone number, province and optional callback time are included in that email.
+            Resend processes the message and delivery-related information to provide its email service. The delivered
+            message is also handled by the receiving email provider. See
+            {' '}<a href="https://resend.com/legal/privacy-policy" class={policyLinkClass}>Resend's privacy policy</a>.
+          </p>
+          <p>
+            <strong>Vercel:</strong> The website is hosted on Vercel. Hosting infrastructure may process technical
+            information such as IP addresses, requested URLs, browser or device details, request times and diagnostic
+            logs to deliver and secure the website. See
+            {' '}<a href="https://vercel.com/legal/privacy-notice" class={policyLinkClass}>Vercel's privacy notice</a>.
+          </p>
+          <p>
+            <strong>Google Tag Manager:</strong> When configured on the production website, Google Tag Manager
+            loads resources from Google to manage website tags. These requests may disclose technical information
+            such as your IP address and browser details to Google. Tag Manager does not by itself mean Google
+            Analytics is enabled; our planned analytics use is explained below. Tags and any required consent
+            controls must be configured before optional tracking is activated.
+          </p>
+          <p>
+            <strong>Jane:</strong> Appointment links take you to the practice's booking site on Jane.
+            Information you enter there is handled within that separate service, not by this website's call-back form.
+            Review the privacy information presented by Jane before submitting booking or health information.
+          </p>
+          <p>
+            Service providers may process or store information outside your province or Canada, including in the
+            United States. Information may be subject to the laws of those jurisdictions and lawful access by their
+            authorities. Provider policies describe their own practices; please contact Rhonda with questions about
+            the handling of your enquiry.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-analytics" class="space-y-4">
+          <h2 id="privacy-analytics" class="font-serif text-2xl font-medium text-forest sm:text-3xl">5. Cookies and planned Google Analytics use</h2>
+          <p>
+            <strong>Google Analytics is planned but is not currently enabled on this website.</strong>
+            We plan to use it to understand website traffic and improve the site's content and usability, not to
+            assess an individual's mental health or make decisions about counselling.
+          </p>
+          <p>
+            When enabled, Google Analytics may use cookies and similar identifiers to collect information about pages
+            viewed, website interactions, referral sources, browser and device characteristics, and approximate
+            location. Visiting a counselling-related page can itself reveal sensitive interests; analytics information
+            should not be assumed to be anonymous.
+          </p>
+          <p>
+            We will not intentionally send names, phone numbers, email addresses, form contents or counselling
+            information to Google Analytics. Before activation, we will review the configuration and applicable consent
+            requirements, provide any required notices and choices, and update this policy to describe the actual
+            implementation. Publishing this policy alone does not activate analytics or obtain consent.
+          </p>
+          <p>
+            You can manage or delete cookies through your browser. Google also provides an
+            {' '}<a href="https://tools.google.com/dlpage/gaoptout/" class={policyLinkClass}>Analytics opt-out browser add-on</a>
+            {' '}for supported browsers. These browser tools do not replace any consent choices the website may be
+            required to provide. Learn more in
+            {' '}<a href="https://policies.google.com/privacy" class={policyLinkClass}>Google's privacy policy</a>
+            {' '}and its
+            {' '}<a href="https://support.google.com/analytics/answer/6004245" class={policyLinkClass}>Analytics data safeguards information</a>.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-sharing" class="space-y-4">
+          <h2 id="privacy-sharing" class="font-serif text-2xl font-medium text-forest sm:text-3xl">6. Other disclosures</h2>
+          <p>
+            Information may be shared with providers as needed to operate the website and respond to you, with your
+            consent, or where disclosure is required or permitted by applicable law, including a valid legal requirement
+            or a serious safety concern. Clinical confidentiality and its limits are discussed separately before
+            counselling.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-retention" class="space-y-4">
+          <h2 id="privacy-retention" class="font-serif text-2xl font-medium text-forest sm:text-3xl">7. Retention and safeguards</h2>
+          <p>
+            Enquiry information is retained for as long as reasonably needed to respond, manage related communications
+            and meet applicable legal or professional obligations. Emails, delivery records, logs and backups may have
+            different retention periods depending on the provider and account settings. This policy does not promise
+            immediate deletion from every provider or backup.
+          </p>
+          <p>
+            We use reasonable safeguards appropriate to the information involved, but no method of transmission or
+            storage is completely secure. Please keep website requests limited to scheduling details. Clinical records,
+            if a counselling relationship begins, are subject to separate professional recordkeeping requirements.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-choices" class="space-y-4">
+          <h2 id="privacy-choices" class="font-serif text-2xl font-medium text-forest sm:text-3xl">8. Your choices and privacy questions</h2>
+          <p>
+            You can choose not to submit information through the website. You may contact Rhonda to ask about
+            information held about you, request access or correction, ask about retention or deletion, withdraw consent
+            to optional uses, or raise a privacy concern. Requests are handled subject to applicable law and any
+            professional retention obligations. Identity verification may be needed to protect your information.
+            Withdrawing permission to use your contact details may mean Rhonda cannot respond to your request.
+          </p>
+          <p>
+            For privacy enquiries, contact {site.practitioner} at
+            {' '}<a href={mailto('Privacy enquiry')} class:list={[policyLinkClass, 'break-all']}>{site.email}</a>
+            {' '}or <a href={site.phoneHref} class={policyLinkClass}>{site.phone}</a>.
+            Please do not include sensitive clinical details in an initial email. You may also raise concerns with the
+            privacy regulator that has jurisdiction over your information.
+          </p>
+        </section>
+
+        <section aria-labelledby="privacy-changes" class="space-y-4">
+          <h2 id="privacy-changes" class="font-serif text-2xl font-medium text-forest sm:text-3xl">9. Changes to this policy</h2>
+          <p>
+            This policy may be updated when website features, providers or privacy practices change. The date above
+            identifies the latest revision. Any additional notice or consent required for a material change will be
+            provided as applicable.
+          </p>
+        </section>
+      </div>
+    </Container>
+  </section>
+</Layout>

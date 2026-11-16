@@ -26,6 +26,10 @@ interface Props {
 }
 
 const { title, description, ogImage, pageType, breadcrumbLabel, service } = Astro.props;
+const googleTagManagerId = import.meta.env.GOOGLE_TAG_MANAGER_ID?.trim();
+if (googleTagManagerId && !/^GTM-[A-Z0-9]+$/.test(googleTagManagerId)) {
+  throw new Error('GOOGLE_TAG_MANAGER_ID must be a GTM container ID, such as GTM-ABCDEFGH.');
+}
 if (!Astro.site) throw new Error('The canonical site URL must be configured.');
 const canonical = canonicalUrl(Astro.url.pathname, Astro.site);
 const [socialImage, schemaLogo] = await Promise.all([
@@ -54,6 +58,13 @@ const schema = createPageSchema({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {googleTagManagerId && (
+      <script id="google-tag-manager" define:vars={{ googleTagManagerId }}>
+        if (!window.dataLayer?.some((entry) => entry?.event === 'gtm.js')) {
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',googleTagManagerId);
+        }
+      </script>
+    )}
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 256x256" />
@@ -90,6 +101,17 @@ const schema = createPageSchema({
     <Font cssVariable="--font-jakarta" preload />
   </head>
   <body class="min-h-dvh">
+    {googleTagManagerId && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+          title="Google Tag Manager"
+        ></iframe>
+      </noscript>
+    )}
     <a
       href="#main"
       class="sr-only z-[60] rounded-full bg-forest-deep px-5 py-3 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
