@@ -5,6 +5,7 @@ export interface FocusArea {
   description: string;
   icon: IconName;
   accent: 'terracotta' | 'sage';
+  showOnHomepage?: boolean;
 }
 
 export const focusAreas = [
@@ -19,6 +20,7 @@ export const focusAreas = [
     title: 'Dental anxiety',
     icon: 'tooth',
     accent: 'terracotta',
+    showOnHomepage: false,
     description:
       'Dental anxiety can make appointments feel overwhelming or difficult to attend. Counselling offers space to explore what may be contributing to the anxiety and identify coping strategies that feel manageable for you.',
   },
