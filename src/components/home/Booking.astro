@@ -1,6 +1,7 @@
 ---
 import { mailto, site } from '../../data/site';
 import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 import PricingCard, { type PricingTier } from './PricingCard.astro';
 
@@ -51,6 +52,17 @@ const tiers: PricingTier[] = [
         Alberta and Ontario.
       </p>
     </SectionHeading>
+
+    <aside
+      aria-label="Direct billing information"
+      class="mx-auto mt-8 flex max-w-2xl items-center justify-center gap-3 rounded-2xl border border-line bg-sage/10 px-5 py-4 text-center text-sm text-ink"
+    >
+      <Icon name="badge-check" class="size-5 text-sage" />
+      <p>
+        <strong class="font-semibold">Direct billing available</strong>
+        <span class="text-muted"> for eligible benefit plans. Please confirm eligibility with your provider.</span>
+      </p>
+    </aside>
 
     <ul class="mt-14 grid gap-8 md:mx-auto md:max-w-xl lg:max-w-none lg:grid-cols-3 lg:gap-6">
       {tiers.map((tier) => <PricingCard tier={tier} />)}

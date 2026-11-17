@@ -42,9 +42,12 @@ export const services: ServiceContent[] = [
       'Anxiety, stress, and burnout',
       'Life transitions and changing relationships',
       'Trauma, grief, and emotional overwhelm',
+      'Dental anxiety',
+      'Queering neurodivergence',
     ],
     focusAreaTitles: [
       'Anxiety',
+      'Dental anxiety',
       'Life transitions',
       'Neurodivergence',
       'Stress & burnout',
@@ -221,7 +224,7 @@ export const services: ServiceContent[] = [
     heading: 'Online Counselling for Seniors',
     seoTitle: 'Online Senior Counselling AB & ON | Joyful Minds',
     seoDescription:
-      'Online counselling for seniors in Alberta and Ontario. Explore grief, retirement, changing health and relationships with Rhonda Hilker, MSW, RSW.',
+      'Online counselling for seniors in Alberta and Ontario. Explore grief, retirement, changing health and relationships with Rhonda Hilker MSW, RSW.',
     introduction:
       'Online counselling for seniors in Alberta and Ontario offers space to explore the changes and questions that can arise in later life. From grief and changing health to relationships and daily routines, support begins with your experience and what matters to you.',
     approachTitle: 'Your priorities, your pace',

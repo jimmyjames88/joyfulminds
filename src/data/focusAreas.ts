@@ -16,6 +16,13 @@ export const focusAreas = [
       'Racing thoughts, persistent worry, and the constant hum of "what if" can make it difficult to rest or feel present. Anxiety may also show up as tension, restlessness, or avoiding situations that feel overwhelming. Together, we can explore what fuels these responses and find practical ways to meet uncertainty with more steadiness and self-trust.',
   },
   {
+    title: 'Dental anxiety',
+    icon: 'tooth',
+    accent: 'terracotta',
+    description:
+      'Dental anxiety can make appointments feel overwhelming or difficult to attend. Counselling offers space to explore what may be contributing to the anxiety and identify coping strategies that feel manageable for you.',
+  },
+  {
     title: 'Life transitions',
     icon: 'compass',
     accent: 'sage',

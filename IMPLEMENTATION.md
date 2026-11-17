@@ -46,7 +46,7 @@ Use DESIGN.md as the visual foundation of this project.
 - `ClosingCta` shares the deep-background closing banner across pages, with optional `title` and `description` props and an `actions` slot for page-specific contact options. Its default actions include the consultation button and a secondary "Learn About Rhonda" button linking to `/about`, with responsive wrapping. Custom actions replace both defaults; Team Workshops shows only its email and phone actions.
 - `Button` renders a link with a required `href` by default; use `as="button"` for native actions (defaulting to `type="button"`). Both share the same variants and sizes.
 - Button labels retain their written capitalization; do not apply all-caps styling.
-- Use the white logo in the dark header and footer. Retain the solid plum and original artwork assets for light-background use. Recoloured variants preserve the original artwork's dimensions and alpha.
+- Use `src/assets/joyful-minds-logo_transparent.png` for the shared header/footer logo and structured-data logo. Preserve its transparency, aspect ratio, responsive sizing, and footer subtitle.
 - Create new components when a pattern will be reused.
 - Prefer native Astro components.
 - Avoid unnecessary JavaScript and hydration.

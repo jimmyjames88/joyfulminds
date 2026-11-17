@@ -1,6 +1,6 @@
 # Design System Specification: Joyful Minds Counselling
 **Concept 4 (V1): Centered Editorial Hero — "Soft Meadow Sanctuary"**
-*Practitioner: Rhonda Hilker, MSW, RSW*
+*Practitioner: Rhonda Hilker MSW, RSW*
 
 ---
 
@@ -52,7 +52,7 @@ Joyful Minds Counselling provides compassionate, evidence-based, and somatic psy
 
 | Level | Size | Weight | Line Height | Tracking | Usage |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Display Hero** | `44px – 56px` (`3.5rem`) | Normal (400) / Medium (500) | `1.15` | `-0.02em` | Main hero title (*Rhonda Hilker, MSW, RSW*) |
+| **Display Hero** | `44px – 56px` (`3.5rem`) | Normal (400) / Medium (500) | `1.15` | `-0.02em` | Main hero title (*Rhonda Hilker MSW, RSW*) |
 | **H1 Section** | `32px – 40px` (`2.5rem`) | Normal (400) / SemiBold (600) | `1.25` | `-0.015em` | Major sections (*Counselling & Support*, *Workshops*) |
 | **H2 Section / Quote** | `26px – 32px` (`2rem`) | Normal (400) Italic / Medium | `1.35` | `normal` | Philosophy quotes, subheadings |
 | **H3 Card Heading** | `20px – 22px` (`1.375rem`) | SemiBold (600) | `1.3` | `-0.01em` | Service focus card titles, booking tier names |
@@ -97,7 +97,7 @@ Joyful Minds Counselling provides compassionate, evidence-based, and somatic psy
 ### 2. Centered Editorial Hero (Concept 4 V1 Archetype)
 - **Background:** Panoramic warm sunflower meadow photo layered with a luminous golden-hour overlay (`rgba(254, 246, 235, 0.7)` to `rgba(244, 230, 212, 0.9)`), transitioning downward into the linen page canvas.
 - **Top Badge:** Outlined rounded pill with subtle terracotta icon and label: `COMPASSIONATE & EVIDENCE-BASED PSYCHOTHERAPY`.
-- **Title Block:** Centered name `Rhonda Hilker, MSW, RSW` with secondary subtitle `REGISTERED SOCIAL WORKER • ALBERTA & ONTARIO LICENSED`.
+- **Title Block:** Centered name `Rhonda Hilker MSW, RSW` with secondary subtitle `REGISTERED SOCIAL WORKER • ALBERTA & ONTARIO LICENSED`.
 - **Mission Subcopy:** Reassuring, grounded narrative highlighting nervous system safety and collaborative pacing.
 - **Dual CTA Group:**
   - Primary: Filled Terracotta button (`Schedule Free 30-Min Consult`).
